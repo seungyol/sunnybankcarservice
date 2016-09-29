@@ -1,0 +1,55 @@
+<div class='container'>
+<form id='frmInvoice' method='post'>
+	<div class="row">
+	   <h2 class='h2Header' id='h2MainHeader'>Settlement</h2>
+    </div>
+		
+    <div class='row form-group'>
+        <label class='control-label col-sm-6'>Invoice Date (From - To) : </label>	
+        <div class=' col-sm-6' >
+            <input type='text' id='InvDateFrom' name='InvDateFrom' class='form-control' placeholder='dd/mm/yyyy' ng-model="InvDateFrom" />
+            <input type='text' id='InvDateTo' name='InvDateTo' class='form-control' placeholder='dd/mm/yyyy' ng-model="InvDateTo" />
+        </div>
+    </div>
+    <div class='row form-group'>
+        <label class='control-label col-sm-6'>Type : </label>
+        <div class=' col-sm-6' >
+            <select id='QuotationYN' name='QuotationYN' placeholder='Type' class='form-control' ng-model="QuotationYN">
+                <option value="">Any</option>
+                <option value="N">Invoice</option>
+                <option value="Y">Quote</option>
+            </select>
+        </div>
+    </div>
+    <div class='row form-group'>
+        
+        <label class='control-label col-sm-6'>Previous : </label>
+        <div class=' col-sm-6' >
+            <select id='PreviousYN' name='PreviousYN' placeholder='Type' class='form-control'  ng-model="PreviousYN">
+                <option value="">Any</option>
+                <option value="N">Current</option>
+                <option value="Y">Previous</option>
+            </select>
+        </div>
+    </div>
+    <div class='row form-group'>
+        <label class='control-label col-sm-6'>Payment : </label>
+        <div class=' col-sm-6' >
+            <select id='PayMethodCd' name='PayMethodCd' placeholder='method' class='form-control' ng-options="method.PayMethodCd as method.PayMethodName for method in paymethods" ng-model="PayMethodCd">
+                <option value="">Any</option>
+            </select>
+        </div>	
+    </div>
+    <div class='row form-group'>
+        <button type='button' id='btnSearch' class ='btn btn-primary' ng-click='search()'>Search</button>
+    </div>
+    <div class='row'>
+        <h3> Total Amount : </h3>
+        <h3  id='spanTotal'>{{TotalAmount| currency}}</h3>	
+        <br/>
+        <h3 >Received Amount : </h3>
+        <h3  id='spanReceived'>{{PaidAmount| currency}}</h3>	
+
+    </div>		
+</form>
+</div>

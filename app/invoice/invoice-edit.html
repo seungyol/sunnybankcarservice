@@ -1,0 +1,260 @@
+		<form id='frmInvoice' method='post' class="form-horizontal">
+		    <input type='hidden' id='InvoicesID' name='InvoicesID' value='<?php echo $ID; ?>'/>
+			<input type='hidden' id='CustomersID' name='CustomersID' value='<?php echo $CustomersID; ?>'/>
+			<input type='hidden' id='CustomerCarsID' name='CustomerCarsID' value='<?php echo $CustomerCarsID; ?>'/>
+			<div class="container">
+				<div class="row">
+					<h2 class='h2Header bg-primary' id='h2MainHeader'>{{title}}</h2>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class='col-sm-2 control-label'>Name</label>
+							<div class="col-sm-10">
+								<input type='text' id='Name' name='Name' class="form-control" readonly placeholder='Name' value='{{customer.FirstName + " " + customer.LastName}}'/>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class='col-sm-2 control-label'>Phone</label>
+							<div class="col-sm-5">
+								<input type='text' id='Phone' name='Phone' class="form-control" readonly placeholder='Home/Work Phone' value='{{customer.Phone}}'/>
+							</div>
+							<div class="col-sm-5">
+								<input type='text' id='Mobile' name='Mobile' class="form-control" readonly placeholder='Mobile Phone' value='{{customer.Mobile}}'/>
+							
+							</div>					
+						</div>
+						<div class="form-group">
+							<label class='col-sm-2 control-label'>Email</label>
+							<div class="col-sm-10">
+								<input type='text' id='Email' name='Email' class="form-control" readonly placeholder='Email Address'  value='{{customer.Email}}'/>
+							</div>					
+						</div>
+						<div class="form-group">
+							<label class='col-sm-2 control-label'>Address</label>
+							<div class="col-sm-10">
+									<input type='text' id='StreetAddress' name='StreetAddress' class="form-control" readonly placeholder='Street Address'  value='{{customer.StreetAddress}}'/>
+									<input type='text' id='Suburb' name='Suburb' class="form-control" readonly  placeholder='Suburb'  value='{{customer.suburb}}'/>
+									<div class="col-sm-6" style="padding:0;">
+										<input type='text' id='State' name='State' class="form-control" readonly  placeholder='State'  value='{{customer.state}}'/>
+									</div>
+									<div class="col-sm-6" style="padding:0;">
+										<input type='text' id='PostCode' name='PostCode' class="form-control" readonly placeholder='PostCode'  value='{{customer.postcode}}'/>					
+									</div>
+
+							</div>					
+						</div>
+					</div>
+					
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class='col-sm-3 control-label'>REG NO/Make</label>
+							<div class="col-sm-5">
+								<input type='text' id='regno' name='regno' class="form-control" readonly placeholder='Registration' value='{{car.RegNo}}'/>
+								
+							</div>
+							<div class="col-sm-4">
+								<input type='text' id='Make' name='Make' class="form-control" readonly placeholder='Make' value='{{car.MakerName}}'/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class='col-sm-3 control-label'>Model/Year</label>
+							<div class="col-sm-5">
+								<input type='text' id='Model' name='Model' class="form-control" readonly placeholder='Model' value='{{car.ModelName}}'/>
+							</div>
+							<div class="col-sm-4">
+								<input type='text' id='Year' name='Year' class="form-control" readonly placeholder='Year' maxlength=4  value='{{car.Year}}'/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class='col-sm-3 control-label'>BIN/Engine No</label>
+							<div class="col-sm-5">
+								<input type='text' id='BIN' name='BIN' class="form-control" readonly placeholder='BIN'  value='{{car.VIN}}'/>
+								
+							</div>
+							<div class="col-sm-4">
+								<input type='text' id='EngineNo' name='EngineNo' class="form-control" readonly placeholder='Engine NO' value='{{car.EngineNo}}'/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class='col-sm-3 control-label'>Odometer/Staff</label>
+							<div class="col-sm-5">
+								<input type='text' id='Odometer' name='Odometer' class='form-control' placeholder='Odometer'  ng-model='invoice.Odometer' valid-number/>
+							</div>
+							<div class="col-sm-4">
+								<select id='technician' name='technician' class="form-control" placeholder='Staff' ng-model='invoice.UsersID'>
+                                    <option ng-repeat="mechanic in users" value = "{{mechanic.ID}}">{{mechanic.FullName}}</option>
+								</select>					
+							</div>
+						</div>
+						<div class="form-group">
+							<label class='col-sm-3 control-label'>Invoice Date</label>
+							<div class="col-sm-9">
+								<input type='text' id='InvDate' name='InvDate' class='form-control'/>
+								
+							</div>			
+						</div>
+					</div>
+				</div>
+
+				<div class='row'>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Job Description</label>
+							<div class="col-sm-10">
+								<textarea name='JobDescription' class="form-control"  rows=13 cols=35 ng-model="invoice.JobDescription"></textarea>
+							</div>			
+						</div>
+					</div>
+					
+					<div class="col-sm-6">
+						<div class="row">
+							<button type='button' class='btn btn-default' id='btnAddPart' ng-click='AddPart()'>Add Part</button>
+						</div>
+						
+						<div class="row">
+							<table cellpadding="0" cellspacing="0" border="0" class="table" id="PartList" width="100%">
+								<thead>
+									<tr>
+										<th>Parts</th>
+										<th class='tdRight'>QTY</th>
+										<th class='tdRight'>Unit Cost</th>
+										<th class='tdRight'>Line Total</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="part in parts">
+											<td class='tdLeft link' ng-click="open(part)" data-id='{{part.ID}}' data-partsid='{{part.PartsID}}' data-qty='{{part.Qty}}' data-unitcost='{{part.UnitCost}}'>{{part.PartName}}</td>
+											<td class='tdRight Qty' >{{part.Qty}}</td>
+											<td class='tdRight UnitCost' >{{part.UnitCost}}</td>
+											<td class='tdRight LineTotal' >{{part.LineTotal}}</td>	
+									</tr>
+								</tbody>
+							</table>					
+						</div>
+					</div>
+				</div>
+				<div class='row'>
+					<div class='col-sm-6'>
+						<div class="form-group">
+							<label class='col-sm-2 control-label'>Result Notes</label>
+							<div class='col-sm-10'>
+								<textarea name='ResultNotes' class="form-control" rows=7 cols=50 ng-model="invoice.ResultNotes"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class='col-sm-6'>
+						<div class="row">
+							<div class="col-sm-4">
+							<label class="check-inline">
+								<input type='checkbox' id='QuotationYN' class="form-control" name='QuotationYN' value='Y' ng-model="invoice.QuotationYN" ng-true-value="'Y'" ng-false-value="'N'"/>Quote
+							</label>
+							</div>
+							<div class="col-sm-4">
+							<label class="check-inline">
+								<input type='checkbox' id='PreviousYN' class="form-control" name='PreviousYN'  value='Y' ng-model="invoice.PreviousYN" ng-true-value="'Y'" ng-false-value="'N'"/>Previous
+							</label>
+							</div>
+							<div class="col-sm-4">
+							<label class="check-inline">
+								<input type='checkbox' id='FullyPaidYN' class="form-control"  name='FullyPaidYN' value='Y' 
+                                       ng-model="invoice.FullyPaidYN" ng-true-value="'Y'" ng-false-value="'N'" ng-click='changePaidAmount()' />Fully Paid
+							</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="col-sm-4 control-label">Total</label>
+									<div class="col-sm-8">
+										<input type='text' id='amount' name='amount' readonly class='form-control' placeholder='Total Amount' value='{{total()}}' valid-number />
+									</div>							
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="col-sm-4 control-label">Paid</label>
+									<div class="col-sm-8">
+										<input type='text' id='PaidAmount' name='PaidAmount' class='form-control' placeholder='Paid Amount' ng-model='invoice.PaidAmount' valid-number/>
+									</div>							
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="col-sm-4 control-label">PayMYD</label>
+									<div class="col-sm-8">
+										<select id='PayMethodCd' name='PayMethodCd' class="form-control" placeholder='method' 
+                                                ng-options="method.PayMethodCd as method.PayMethodName for method in paymethods" ng-model="invoice.PayMethodCd">
+											<option value="">Select Method</option>
+										</select>
+									</div>							
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="col-sm-4 control-label">PayDate</label>
+									<div class="col-sm-8">
+										<input type='text' id='PayDate' name='PayDate' class='form-control'/>
+									</div>							
+								</div>
+							</div>
+						</div>
+						
+
+					</div>
+
+				</div>		
+				<div class='row'>
+					
+					<button type='button' class="btn btn-responsive btn-warning"  id='btnSaveInvoice' ng-click="saveInvoice()">Save</button>
+					<button type='button' class="btn btn-responsive btn-success" id='btnPrintQuote' ng-click='printQuote()'>Print Quote</button>
+					<button type='button' class="btn btn-responsive btn-success" id='btnPrintJobOrder' ng-click='printJobOrder()'>Print Job Order</button>
+					<button type='button' class="btn btn-responsive btn-success" id='btnPrintInvoice' ng-click='printInvoice()'>Print Invoice</button>
+					<button type='button' class="btn btn-responsive btn-default" id='btnGotoCustomer' ng-click='gotoCustomer()'>Back To Customer</button>
+					<button type='button' class="btn btn-responsive btn-danger" id='btnDeleteInvoice' style='float:right' ng-click='deleteInvoice()'>Delete</button>
+				</div>
+			</div>
+		</form>
+		<div id='divPartPopup' title='Part Details' class="modal fade" modal="shouldBeOpen">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+						<h4 class="modal-title">Part Details</h4>					
+					</div>
+					<div class="modal-body">
+						<form id='frmPart' action="" name='frmPart' class="form-horizontal">
+							<input type='hidden' ng-model='partdtl.id' id='InvoicePartsID' name='InvoicePartsID'/>
+							<input type='hidden' ng-model='partdtl.partsid' id='PartsID' name='PartsID'/>
+							<div class="form-group">
+								<label class='col-sm-2 control-label'>Part</label>
+								<div class='col-sm-10'>
+									<input type='text' autofocus ng-model='partdtl.partname' id='PartName' name='PartName' class="form-control" ng-change="partNameChange()"  />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class='col-sm-2 control-label'>QTY</label>
+								<div class='col-sm-10'>
+									<input type='text' ng-model='partdtl.qty' id='Qty' name='Qty' class='form-control' valid-number  />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class='col-sm-2 control-label'>Unit Cost</label>
+								<div class='col-sm-10'>
+									<input type='text' ng-model='partdtl.unitcost' id='UnitCost' name='UnitCost' class='form-control' valid-number/>
+									<input type='hidden' ng-model='partdtl.linetotal' id='LineTotal' name='LineTotal'/>
+								</div>
+							</div>
+						</form>			
+					</div>
+					<div class="modal-footer">
+						<button type='button' class='btn btn-warning' ng-click="savePart()" id='btnPartSave'>Save</button>
+						<button type='button' class='btn btn-danger' ng-click="deletePart()" id='btnPartDelete' ng-show="partdtl.id">Delete</button>
+					</div>		
+				</div>
+
+			</div>
+		</div>

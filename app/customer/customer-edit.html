@@ -1,0 +1,216 @@
+		<form id='frmCustomerDetail' class="form-horizontal">
+			<input type='hidden' id='CustomersID' name='CustomersID' ng-model="cust.ID"/>
+			<input type='hidden' id='CompaniesID' name='CompaniesID' ng-model="CompaniesID"/>
+			<input type='hidden' name='action' id='action'/>
+
+			<div class="container">
+				<input type='hidden' id='CarModelsID' name = 'CarModelsID' ng-model="CarModelsID"/>
+				<div class="row">
+					<h2 class='h2Header bg-primary' id='h2MainHeader'>Customer Details (ID : {{cust.ID}})</h2>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="col-sm-2 control-label" >Name</label>	
+							<div class="col-sm-10">
+								<select id='Title' class="form-control" name='Title' placeholder='Title' ng-model="cust.Title">
+									<option value=''>Title</option>
+									<option value='Mr'>Mr</option>
+									<option value='Ms'>Ms</option>
+									<option value='Mrs'>Mrs</option>
+									<option value='Miss'>Miss</option>
+									<option value='Dr'>Dr</option>
+								</select>
+								<input type='text' class="form-control" id='FirstName' name='FirstName' required placeholder='First Name' ng-model="cust.FirstName"/>
+								<input type='text' class="form-control" id='LastName' name='LastName' placeholder='Last Name' ng-model="cust.LastName"/>						
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Phone</label>
+							<div class="col-sm-10">
+								<input type='tel' id='Phone' class="form-control" name='Phone' placeholder='Home/Work Phone' ng-model="cust.Phone"/>
+								<input type='tel' id='Mobile' class="form-control" name='Mobile' placeholder='Mobile Phone' ng-model="cust.Mobile"/>						
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Email</label>
+							<div class="col-sm-10">
+								<input type='email' id='Email' class="form-control" name='Email' placeholder='Email Address' ng-model="cust.Email"/>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">			
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Address</label>
+							<div class="col-sm-10">
+								<input type='text' class="form-control" id='StreetAddress' name='StreetAddress' placeholder='Street Address' ng-model="cust.StreetAddress"/>                        
+                                  <md-autocomplete  ng-disabled="isDisabled" md-no-cache="noCache" md-selected-item="selectedSuburb" md-search-text="searchText" md-selected-item-change="selectedItemChange(item)" md-items="item in querySearch(searchText)" md-item-text="item.label" md-min-length="0" placeholder="Type suburb name">
+                                    <md-item-template>
+                                      <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.label}}</span>
+                                    </md-item-template>
+                                  </md-autocomplete>                                 
+								<div class="col-sm-6" style="padding:0;">
+									<input type='text' class="form-control" id='State' name='state' placeholder='State' ng-model="cust.state"/>
+								</div>
+								<div class="col-sm-6" style="padding:0;">
+									<input type='text' class="form-control" id='PostCode' name='postcode' placeholder='PostCode' ng-model="cust.postcode"/>			
+								</div>
+                                
+                                 
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Notes</label>
+							<div class="col-sm-10">
+								<textarea class="form-control" rows='4' name='Notes' ng-model="cust.Notes"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="panel panel-default">
+						<div class="panel-heading">Car Details</div>
+						<table cellpadding="0" cellspacing="0" border="0" class="table" id="CarList">
+						  <thead>
+							<tr>
+							  <th>&nbsp;</th>
+							  <th>Make</th>
+							  <th>Model</th>
+							  <th>Registration</th>
+							  <th>Year</th>
+							  <th class='tdVIN'>VIN</th>
+							  <th class='tdENGINENO'>Engine No</th>
+							  <th class="tdTRANSMISSION">Transmission</th>
+							</tr>
+						  </thead>
+						  <tbody>
+                            <tr ng-repeat="car in custCars">
+				              <td class=''><input type='radio' name='CustCarsID' ng-checked="{{car.checked}}" ng-click="selectCar(car.ID)"/></td>
+				              <td class='tdMAKE'>{{car.MakerName}}</td>
+				              <td class='tdMODEL'>{{car.ModelName}}</td>
+				              <td class='link' ng-click="showCar(car)">{{car.RegNo}}</td>
+							  <td class='tdYEAR'>{{car.Year}}</td>
+                              <td class='tdVIN'>{{car.VIN}}</td>
+							  <td class='tdENGINENO'>{{car.EngineNo}}</td>
+				              <td class='tdTRANSMISSION'>{{car.Transmission}}</td>
+                            </tr>
+						  </tbody>
+						</table>	
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="panel panel-default">
+						<div class="panel-heading">Invoice Details</div>
+						<table cellpadding="0" cellspacing="0" border="0" class="table" id="InvoiceList" >
+						  <thead>
+							<tr>
+							  <th>INV NO</th>
+							  <th>INV Date</th>
+							  <th>REG No</th>
+							  <th>Total</th>
+							  <th class='tdRECV'>Received</th>
+							  <th class='tdPAID'>Fully Paid</th>
+							  <th>Staff</th>
+							</tr>
+						  </thead>
+						  <tbody>
+                            <tr ng-repeat="inv in custInvoices">
+                                <td class='link' ng-click='GotoInvoice(inv)'>{{inv.ID}}</td>
+                                <td data-id='{{inv.ID}}'>{{inv.InvDate}}</td>
+                                <td >{{inv.RegNo}}</td>
+                                <td class='tdRight'>{{inv.TotalAmount|currency}}</td>
+                                <td class='tdRight tdRECV'>{{inv.PaidAmount|currency}}</td>
+                                <td class='tdPAID'>{{inv.FullyPaidYN}}</td>
+                                <td>{{inv.FirstName}} {{inv.LastName}}</td>
+                            </tr>
+				          </tbody>
+						</table>
+					</div>
+				</div>
+				<div class='row'>
+					<button type='button' class="btn btn-warning" id='btnSaveCustomer' ng-click="SaveCustomer()">Save Customer</button>
+					<button type='button' class="btn btn-primary" id='btnAddCar' ng-click="AddCar()">Add Car</button>
+					<button type='button' class="btn btn-success" id='btnAddInvoice' ng-click="AddInvoice()">Add Invoice</button>
+					<button type='button' class="btn btn-default" id='btnGotoList' ng-click="GotoList()">Go To List</button>
+					<button type='button' class="btn btn-danger" id='btnDeleteCustomer' style='float:right' ng-click="DeleteCustomer()">Delete Customer</button>
+				</div>
+			</div>
+		</form>
+
+    <script type="text/ng-template" id="CarDetail.html">
+        <input type='hidden' id="caraction" name="caraction" ng-model="CarPopup.action"/>
+        <input type='hidden' id='CustomerCarsID' name='CustomerCarsID' ng-model="CarPopup.ID"/>
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="CarDetail.html" aria-hidden="true">x</button>
+            <h4 class="modal-title">Car Detail</h4>			
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class='col-sm-3 control-label'>Make</label>
+                <div class="col-sm-9">
+                    <select id='make' class="form-control" name='make' ng-model="CarPopup.CarMakersID" ng-change="changeMake()" focus-me="shouldBeOpen">
+                      <option>Select Maker</option>
+                      <option ng-repeat="maker in makers" value='{{maker.value}}'>{{maker.label}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class='col-sm-3 control-label'>Model</label>
+                <div class='col-sm-9'>
+                  <md-autocomplete  ng-disabled="isDisabled" md-no-cache="noCache" md-selected-item="selectedItem" md-search-text-change="searchTextChange(searchText)" md-search-text="searchText" md-selected-item-change="selectedItemChange(item)" md-items="item in querySearch(searchText)" md-item-text="item.display" md-min-length="0" placeholder="Type model name">
+                    <md-item-template>
+                      <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.display}}</span>
+                    </md-item-template>
+                  </md-autocomplete> 
+                </div>
+            </div>
+            <div class="form-group">
+                <label class='col-sm-3 control-label'>Reg No</label>
+                <div class='col-sm-9'>
+                    <input type='text' id='reg' class="form-control" name='RegNo' ng-model="CarPopup.RegNo"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class='col-sm-3 control-label'>Year</label>
+                <div class='col-sm-9'>
+                    <input type='text' id='year' class="form-control" name='Year' maxlength='4' ng-model="CarPopup.Year" valid-number/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class='col-sm-3 control-label'>VIN</label>
+                <div class='col-sm-9'>
+                    <input type='text' id='vin' class="form-control" name='VIN' ng-model="CarPopup.VIN"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class='col-sm-3 control-label'>Engine No</label>
+                <div class='col-sm-9'>
+                    <input type='text' id='engineno' class="form-control" name='EngineNo' ng-model="CarPopup.EngineNo"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class='col-sm-3 control-label'>Transmission</label>
+                <div class='col-sm-9'>
+                    <label class="radio-inline">
+                        <input type='radio' id='manual' class="" name='ManualTransmissionYN' value='Y' ng-model="CarPopup.ManualTransmissionYN" />Manual
+                    </label>
+                    <label class="radio-inline">
+                        <input type='radio' id='auto' class="" name='ManualTransmissionYN' value='N' ng-model="CarPopup.ManualTransmissionYN">Auto
+                    </label>
+                </div>
+            </div>			
+        </div>
+        <div class="modal-footer">
+            <button type='button' class='btn btn-primary' id='btnCarSave' ng-click="SaveCar()">Save</button>
+            <button type='button' class='btn btn-danger' id='btnCarDelete' ng-click="DeleteCar()" ng-hide="CarPopup == null">Delete</button>			
+        </div>
+	 
+    </script>

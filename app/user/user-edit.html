@@ -1,0 +1,118 @@
+<form id='frmUser' name='frmUser' method='post' class="form-horizontal" ng-submit="save(frmUser)" novalidate>
+    <input type='hidden' name='ID' ng-model="user.ID"/>
+    <div class="container">				
+        <div class="row">
+            <h2 class='h2Header bg-primary' id='h2MainHeader'>User Details (ID : {{user.ID}})</h2>
+        </div>
+        <div class="row">
+            <div class="form-group" ng-class="{ 'has-error': (frmUser.FirstName.$touched && frmUser.FirstName.$invalid) || (frmUser.LastName.$touched && frmUser.LastName.$invalid)}">
+                <label class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-10" >
+                    <input type='text' id='FirstName' class="form-control" name='FirstName' placeholder='First Name' ng-model="user.FirstName"  required  />
+                    <div ng-messages="frmUser.FirstName.$error" ng-show="frmUser.FirstName.$touched">
+                        <div ng-messages-include="messages.html"></div>
+                    </div>                       
+                    <input type='text' id='LastName' class="form-control" name='LastName' placeholder='Last Name' ng-model="user.LastName"  required  />
+                    <div ng-messages="frmUser.LastName.$error" ng-show="frmUser.LastName.$touched">
+                        <div ng-messages-include="messages.html"></div>
+                    </div>                       
+                </div>
+            </div>
+         
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">Phone</label>
+                <div class="col-sm-10">
+                    <input type='text' id='Phone' class="form-control" name='Phone' placeholder='Home/Work Phone' ng-model="user.Phone"  />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group" ng-class="{ 'has-error': frmUser.Mobile.$invalid && frmUser.Mobile.$touched }">
+                <label  class="col-sm-2 control-label">Mobile</label>
+                <div class="col-sm-10">	
+                    <input type='text' id='Mobile' class="form-control" name='Mobile' placeholder='Mobile Phone' ng-model="user.Mobile" required  />
+                    <div ng-messages="frmUser.Mobile.$error" ng-show="frmUser.Mobile.$touched">
+                        <div ng-messages-include="messages.html"></div>
+                    </div>                     
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group" ng-class="{'has-error': frmUser.Email.$invalid && frmUser.Email.$touched}">
+                <label class="col-sm-2 control-label">Email</label>
+                <div class="col-sm-10">	
+                    <input type='email' id='Email' class="form-control" name='Email' placeholder='Email' ng-model="user.Email" required  />
+                    <div ng-messages="frmUser.Email.$error" ng-show="frmUser.Email.$touched">
+                        <div ng-messages-include="messages.html"></div>
+                    </div>                     
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group" ng-class="{'has-error': frmUser.Password.$invalid && frmUser.Password.$touched}">
+                <label class="col-sm-2 control-label">Password</label>
+                <div class="col-sm-10">
+                    <input type='password' id='Password' class="form-control" name='Password' ng-model="user.Password" required  />
+                    <div ng-messages="frmUser.Password.$error" ng-show="frmUser.Password.$touched">
+                        <div ng-messages-include="messages.html"></div>
+                    </div>                     
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Address</label>
+                <div class="col-sm-10">
+                    <input type='text' id='StreetAddress'  class="form-control" name='StreetAddress' placeholder='Street Address' ng-model="user.StreetAddress"  />
+<!--                    <input type='text' id='Suburb'  class="form-control" name='suburb' placeholder='Suburb'  ng-model="user.suburb" />-->
+
+                      <md-autocomplete  ng-disabled="isDisabled" md-no-cache="noCache" md-selected-item="selectedSuburb" md-search-text="searchText" md-selected-item-change="selectedItemChange(item)" md-items="item in querySearch(searchText)" md-item-text="item.label" md-min-length="0" placeholder="Type suburb name">
+                        <md-item-template>
+                          <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.label}}</span>
+                        </md-item-template>
+                      </md-autocomplete>                          
+                    <input type='text' id='State' class="form-control"  name='state' placeholder='State'  ng-model="user.state" />
+                    <input type='text' id='PostCode' class="form-control"  name='postcode' placeholder='PostCode'  ng-model="user.postcode" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group" ng-class="{ 'has-error': frmUser.RolesID.$invalid && frmUser.RolesID.$touched}">
+                <label class="col-sm-2 control-label">Role</label>
+                <div class="col-sm-10">
+                    <select id='RolesID'  required  class="form-control" name ='RolesID'  ng-model="user.RolesID" ng-options="role.ID as role.RoleName for role in roles" >
+                        <option value=''></option>
+                    
+                    </select>
+                    <div ng-messages="frmUser.RolesID.$error" ng-show="frmUser.RolesID.$touched">
+                        <div ng-messages-include="messages.html"></div>
+                    </div>                     
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">SMTP</label>
+                <div class="col-sm-10">
+                    <input type='text' id='SmtpName' class="form-control"  name='SmtpName' placeholder='SMTP Host'  ng-model="user.SmtpName" />
+                    <input type='text' id='SmtpPort' class="form-control"  name='SmtpPort' placeholder='Port'  ng-model="user.SmtpPort" />
+                    <input type='password' id='SmtpPassword' class="form-control"  name='SmtpPassword' placeholder='Email Password'  ng-model="user.SmtpPassword" />		
+                </div>
+            </div>	    
+        </div>
+        <div class="row">
+            <div class='col-sm-6'>
+                 <button type='submit' class="btn btn-primary" id='btnSave'>Save User</button>
+            </div>
+            <div class='col-sm-6 text-right'>
+                <button type='button' class="btn btn-danger" id='btnDelete' ng-click="delete()" ng-hide="ID == loginID">Delete User</button>	
+            </div>
+        </div>
+    </div>
+</form>
+   
+				
+
+            
