@@ -20,31 +20,83 @@
 	<head>
 	<META charset="utf8">
 	<style>
-	body {width:700px;font-size:11pt;font-family: Trebuchet MS, Verdana, Arial, Helvetica, sans-serif !important;}
+	body {width:700px;font-size:11pt;font-family: Arial, Helvetica, sans-serif !important;}
 	img.logo {float:left;height:70px;}
 	h1 {width:370px;margin-top:20px;text-align:center;float:left;font-size:20pt;}
 	li.name1 {font-size:11pt;}
-	li.address {font-size:8pt;}
-	
+	li.address {font-size:8pt;}	
 	li.customername {font-weight:bold;}
 	li > label {font-weight:bold; width:100px;float:left;text-align:right; margin-right:7px;display:block;}
-	li > label.short {width:90px;}
+	li > label.short {width:80px;}
 	li > span {width:120px;}
 	li > span.short {width:100px;}
-	.tdRight {text-align:right;}
+	.tdRight {text-align:right;}	
 	ul {list-style-type:none;display:block;float:left;padding-left:10px;margin-top:5px;}
 	ul.Car {margin-top:0px;}
 	ul.Invoice > li {padding-top:20px;}
 	ul.Invoice > li:nth-child(1) {padding-top:0px;}
-	div {border: 1px solid;float:left;margin-top:10px;}
+
+	div {
+        border: 1px solid  #AFAFAF;
+        float:left;
+        margin-top:10px;
+    }
 	div.divTop {width:691px;height:60px;border:0px}
-	div.divTop ul {margin-top:0px;padding-left:10px;}
-	div.divCustomer { width:200px;height:120px;}
-	div.divCar { width:260px;height:120px;border-left:none;}
-	div.divInvoice { width:230px;height:120px;border-left:none;}
-	div.divPartsHeader {width:681px;height:20px;background-color:gray;padding:5px;}
+	div.divTop ul {margin-top:0px;padding-left:10px;}div.divCustomer { 
+        width:200px;
+        height:120px;
+        border: 0;
+        clear: both;
+        margin-top: 0;
+    }
+    .divCustomer li {
+        margin-bottom: 3px;
+    }        
+	div.divCar { 
+        width:470px;
+        height:120px;
+        border: 0;
+        margin: 0 0 0 20px;
+    }
+	div.divInvoice { width:230px;height:140px;border-left:none;}
+
+	div.divPartsHeader {width:681px;height:20px;background-color:#EDEDED;padding:5px;}
 	div.divPartsDetails {width:691px;height:460px;}
-	table {width:664px;border-spacing:0px;margin-top:10px;display:block;float:left;}
+div.Car {
+        margin-top: 5px !important;
+    }
+    div.box {
+        border: 0;
+        overflow: auto;
+        width: 100%;
+        margin: 0 0 3px 0;
+    }
+    .labelbox {
+        display: block;
+        float: left;
+        margin-left: 480px;
+        width: 85px;
+    }
+    .val-box {
+        float: left;
+        margin-left: 5px;
+    }
+    .short-label-box {
+        width: 100px;
+        display: block;
+        float: left;
+        text-align: right;     
+        font-weight: bold;
+    }
+    .right {text-align: right;}
+    .bold {font-weight: bold;}
+    .header-box {
+        background-color: #EDEDED;   
+        border-color: #AFAFAF;
+        width: 98%;
+        padding-left: 10px;
+    }	
+table {width:664px;border-spacing:0px;margin-top:10px;display:block;float:left;}
 	tr {margin:0px;padding:0px;height:20px;}
 	th {background-color:gray;border-bottom: 1px solid;padding:0px;}
 	td {margin:0px;padding:0px;height:20px;padding:0px 5px 0px 5px;}
@@ -58,6 +110,7 @@
 	div.ResultNote {width:691px; height:240px;}
 	div.ResultNote > span {width: 691px;display: block; bold;padding: 10px;}
 	div.ResultNote > span > label {font-weight: bold;}
+      
 	</style>
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>	
 	<script>
@@ -78,37 +131,30 @@
 			<li class='address'>Phone <?php echo $company["Phone"];?> Fax <?php echo $company["Fax"];?></li>
 		</ul>
 	</div>
-	<div class='divCustomer'>
-		<span>
-			<ul>
-				<li class='customername'><?php echo $customer["Title"] . " " . $customer["FirstName"] . " " . $customer["LastName"]; ?></li>
-				<li style='font-weight:normal;'><?php echo $customer["StreetAddress"]; ?></li>
-				<li style='font-weight:normal;'><?php echo $customer["suburb"] . " " . $customer["state"] . " " . $customer["postcode"]; ?></li>
-				<li class='mobile'><?php echo $customer["Mobile"];?></li>
-			</ul>
-		</span>
+	<div class='box'> 
+			<div class='box'><label class='labelbox bold'>Quote No :</label><label class='val-box short'><?php echo $custInvoices["ID"];?></label></div>
+			<div class='box'><label class='labelbox bold'>Date :</label><label class='val-box short'><?php echo $custInvoices["InvDate"];?></label></div>
 	</div>
-	<div class='divCar'>
-		<span>
-			<ul class='Car'>
-				<li><label class='short'>Rego No :</label><span><?php echo $custCars["RegNo"];?></span></li>
-				<li><label class='short'>Make :</label><span><?php echo $custCars["MakerName"];?></span></li>
-				<li><label class='short'>Model :</label><span><?php echo $custCars["ModelName"];?></span></li>
-				<li><label class='short'>Year :</label><span><?php echo $custCars["Year"];?></span></li>
-				<li><label class='short'>VIN :</label><span><?php if(empty($custCars["VIN"])) {echo "&nbsp;";}else {echo $custCars["VIN"];}?></span></li>
-				<li><label class='short'>Odometer :</label><span><?php echo number_format($custInvoices["Odometer"]) . ' Km';?></span></li>
-			</ul>
-		</span>
-	</div>	
-	<div class='divInvoice' >
-		<span>
-			<ul class='Invoice'>
-				<li><label>Date :</label><span class='short'><?php echo $custInvoices["InvDate"];?></span></li>
-				<li><label>Quote No :</label><span class='short'><?php echo $custInvoices["ID"];?></span></li>
-				<li><label>Customer No :</label><span class='short'><?php echo $CustomersID;?></span></li>
-			</ul>
-		</span>
-	</div>	
+	
+	<div class='divCustomer'>
+		<div class='header-box'>Customer</div>
+		<ul>
+			<li class='customername'><?php echo $customer["Title"] . " " . $customer["FirstName"] . " " . $customer["LastName"]; ?></li>
+			<li style='font-weight:normal;'><?php echo $customer["StreetAddress"]; ?></li>
+			<li style='font-weight:normal;'><?php echo $customer["suburb"] . " " . $customer["state"] . " " . $customer["postcode"]; ?></li>
+			<li class='mobile'><?php echo $customer["Mobile"];?></li>
+		</ul>
+
+	</div>
+	<div class='divCar' style='border-left:none;'>
+		<div class='header-box'>Car Details</div>
+		<div class='Car box'>
+				<div class='box'><label class='short-label-box'>Rego No :</label><label class='val-box'><?php echo $custCars["RegNo"];?></label></div>
+				<div class='box'><label class='short-label-box'>Model :</label><label class='val-box'><?php echo $custCars["MakerName"] . " " . $custCars["ModelName"] . " (Year " . $custCars["Year"] . ")";?></label></div>
+				<div class='box'><label class='short-label-box'>VIN :</label><label class='val-box'><?php if(empty($custCars["VIN"])) {echo "&nbsp;";}else {echo $custCars["VIN"];}?></label></div>
+				<div class='box'><label class='short-label-box'>Odometer :</label><label class='val-box'><?php echo number_format($custInvoices["Odometer"]) . ' Km';?></label></div>
+		</div>
+	</div>			
 
 	<div class='divPartsHeader'>
 		<span class='description'>Description</span>
@@ -129,7 +175,24 @@
 			}
 		
 		?>
+
+            
 		</table>	
+        <table class='total'>
+            <tr>
+                <td class='description'>Total</td>
+                <td class='qty'></td>
+                <td class='price'></td>
+                <td class='price'><?php echo floor($custInvoices["TotalAmount"]);?></td>
+            </tr>
+            <tr>
+                <td class='description'>GST</td>
+                <td class='qty'></td>
+                <td class='price'></td>
+                <td class='price'><?php echo round($custInvoices["TotalAmount"] / 11, 2);?></td>
+            </tr>  
+        </table>
+        
 	</div>	
 	<div class='ResultNote'>
 			<span><label>Description</label></span>

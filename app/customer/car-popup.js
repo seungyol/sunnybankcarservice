@@ -13,6 +13,13 @@ angular.module('myApp')
   $scope.CarModelsID = car.CarModelsID;  
   var mission = car.Transmission;
   $scope.SaveCar = function() {
+      
+    if($scope.CarPopup.CarModelsID == null) {
+        console.log(".modal-dialog md-autocomplete input", $('.modal-dialog md-autocomplete input').val());
+      $scope.CarPopup.ModelName =  $('.modal-dialog md-autocomplete input').val();  
+    }
+                            
+    
     CarFactory.SaveCar($scope.CarPopup,CustomersID,CompaniesID,$scope);  
   };
   $scope.DeleteCar = function() {

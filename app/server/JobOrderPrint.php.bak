@@ -61,7 +61,7 @@
     }
 	div.divInvoice { width:230px;height:140px;border-left:none;}
 
-	div.divPartsHeader {width:681px;height:20px;background-color:#EDEDED;padding:5px;}
+	div.divPartsHeader {width:681px;height:20px;background-color:gray;padding:5px;}
 	div.divPartsDetails {width:691px;height:460px;}
 div.Car {
         margin-top: 5px !important;
@@ -132,14 +132,16 @@ table {width:664px;border-spacing:0px;margin-top:10px;display:block;float:left;}
 			<li class='address'>Phone <?php echo $company["Phone"];?> Fax <?php echo $company["Fax"];?></li>
 		</ul>
 	</div>
-	<div class='box'> 
-			<div class='box'><label class='labelbox bold'>Invoice No :</label><label class='val-box short'><?php echo $custInvoices["ID"];?></label></div>
-			<div class='box'><label class='labelbox bold'>Date :</label><label class='val-box short'><?php echo $custInvoices["InvDate"];?></label></div>
-	</div>
+    <div class='box'> 
+        
+        <div class='box'><label class='labelbox bold'>Invoice No :</label><label class='val-box short'><?php echo $custInvoices["ID"];?></label></div>
+        <div class='box'><label class='labelbox bold'>Date :</label><label class='val-box short'><?php echo $custInvoices["InvDate"];?></label></div>
+        
+    </div>
 
 
 	<div class='divCustomer'>
-        <div class='header-box'>Customer</div>
+        <div class='header-box'>Bill To</div>
 		
         <ul>
             <li class='customername'><?php echo $customer["Title"] . " " . $customer["FirstName"] . " " . $customer["LastName"]; ?></li>
@@ -151,14 +153,23 @@ table {width:664px;border-spacing:0px;margin-top:10px;display:block;float:left;}
 	</div>
 
 	<div class='divCar' style='border-left:none;'>
-		<div class='header-box'>Car Details</div>
-		<div class='Car box'>
-				<div class='box'><label class='short-label-box'>Rego No :</label><label class='val-box'><?php echo $custCars["RegNo"];?></label></div>
-				<div class='box'><label class='short-label-box'>Model :</label><label class='val-box'><?php echo $custCars["MakerName"] . " " . $custCars["ModelName"] . " (Year " . $custCars["Year"] . ")";?></label></div>
-				<div class='box'><label class='short-label-box'>VIN :</label><label class='val-box'><?php if(empty($custCars["VIN"])) {echo "&nbsp;";}else {echo $custCars["VIN"];}?></label></div>
-				<div class='box'><label class='short-label-box'>Odometer :</label><label class='val-box'><?php echo number_format($custInvoices["Odometer"]) . ' Km';?></label></div>
-		</div>
-	</div>		
+        <div class='header-box'>Car Details</div>
+        <div class='Car box'>
+            <div class='box'><label class='short-label-box'>Rego No :</label><label class='val-box'><?php echo $custCars["RegNo"];?></label></div>
+            <div class='box'><label class='short-label-box'>Model :</label><label class='val-box'><?php echo $custCars["MakerName"] . " " . $custCars["ModelName"] . " (Year " . $custCars["Year"] . ")";?></label></div>
+            <div class='box'><label class='short-label-box'>VIN :</label><label class='val-box'><?php if(empty($custCars["VIN"])) {echo "&nbsp;";}else {echo $custCars["VIN"];}?></label></div>
+            <div class='box'><label class='short-label-box'>Odometer :</label><label class='val-box'><?php echo number_format($custInvoices["Odometer"]) . ' Km';?></label></div>
+        </div>
+	</div>	
+	<div class='divInvoice' >
+		<span>
+			<ul class='Invoice'>
+				<li><label>Date :</label><span class='short'><?php echo $custInvoices["InvDate"];?></span></li>
+				<li><label>Invoice No :</label><span class='short'><?php echo $custInvoices["ID"];?></span></li>
+				<li><label>Customer No :</label><span class='short'><?php echo $CustomersID;?></span></li>
+			</ul>
+		</span>
+	</div>	
 	<div class='divPartsHeader'>
 		<span class='description'>Description</span>
 		<span class='qty'>Qty</span>

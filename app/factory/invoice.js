@@ -15,13 +15,13 @@ angular.module('myApp')
                 }
             });            
         },
-        saveInvoice : function(invoice){
-            console.log("saveInvoice", invoice);
+        saveInvoice : function(invoice, InvDate, PayDate){
+//            console.log("saveInvoice", invoice);
             var data = $.param({
                 action: "SAVE",
                 InvoicesID: invoice.ID,
                 Odometer : invoice.Odometer,
-                InvDate : invoice.InvDate,
+                InvDate : InvDate,
                 JobDescription : invoice.JobDescription,
                 ResultNotes : invoice.ResultNotes,
                 PreviousYN : invoice.PreviousYN,
@@ -30,7 +30,7 @@ angular.module('myApp')
                 amount : invoice.amount,
                 PaidAmount : invoice.PaidAmount,
                 PayMethodCd : invoice.PayMethodCd,
-                PayDate : invoice.PayDate,
+                PayDate : PayDate,
                 CustomerCarsID : invoice.CustomerCarsID,
                 technician : invoice.UsersID
             });

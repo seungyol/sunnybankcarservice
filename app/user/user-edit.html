@@ -102,6 +102,15 @@
                 </div>
             </div>	    
         </div>
+        <div class="row" ng-show="user.RolesID >= 3">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Company Name</label>
+                <div class="col-sm-10">
+                    <input type='text' id='SmtpName' class="form-control"  name='CompanyName' placeholder='Company Name'  ng-model="user.CompanyName" />
+                </div>
+            </div>	    
+        </div>
+
         <div class="row">
             <div class='col-sm-6'>
                  <button type='submit' class="btn btn-primary" id='btnSave'>Save User</button>

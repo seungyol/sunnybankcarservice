@@ -22,6 +22,40 @@ class Companies {
 		
 		return $row;	
 	}
+    
+    public static function updateCompanyName($id, $name) {
+        include 'DBConstant.php';		
+        $query = "";
+        $result = null;
+		try{
+			$dbc = new PDO('mysql:host=' . $HOST_NM . ';dbname=' . $DB_NM, $USER_ID,$PASSWORD, array( PDO::ATTR_PERSISTENT => true));
+
+
+			if($id > 0 && $name != ""){
+                
+				$query = "UPDATE Companies SET " .
+								" CompanyName = :CompanyName " . 
+							" WHERE ID = :ID";
+			}
+					
+			$stmt = $dbc->prepare($query);
+            $stmt->bindParam(':CompanyName',$name);
+            $stmt->bindParam(':ID',$id,PDO::PARAM_INT);
+			$stmt->execute();
+			$affectedRows = $stmt->rowCount();
+
+          $result = array(
+            "affectedRows" => $affectedRows
+          );
+		}catch(PDOException $e){
+			print "ERROR:" . $e->getMessage() . "<br/>";
+			print "SQL:" . $query;
+			die();		
+		}
+		
+		return $result;        
+        
+    }
 }
 
 class Person {
@@ -617,8 +651,10 @@ class Users extends Person {
 		try{
 			$dbc = new PDO('mysql:host=' . $HOST_NM . ';dbname=' . $DB_NM, $USER_ID,$PASSWORD, array( PDO::ATTR_PERSISTENT => true));
 
-			$sql = "SELECT ID,    FirstName,    LastName,    Phone,    Mobile,    Email,    Password,    StreetAddress,    suburb,    state,    postcode,    " . 
-				" RolesID,    SmtpName,    SmtpPort,    SmtpPassword FROM Users WHERE ID = :ID";
+			$sql = "SELECT Users.ID,    FirstName,    LastName,    Users.Phone,    Users.Mobile,    Users.Email,    Users.Password,    " .
+                    "   Users.StreetAddress,    Users.suburb,    Users.state,    Users.postcode,    " .
+                    "   Users.RolesID,    Users.SmtpName,    Users.SmtpPort,    Users.SmtpPassword, Companies.CompanyName " . 
+                    " FROM Users inner join Companies on Users.CompaniesID = Companies.ID where Users.ID = :ID";
 
 			$stmt = $dbc->prepare($sql);
 			$stmt->bindParam(':ID',$id);

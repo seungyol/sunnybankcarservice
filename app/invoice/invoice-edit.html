@@ -91,7 +91,8 @@
 						<div class="form-group">
 							<label class='col-sm-3 control-label'>Invoice Date</label>
 							<div class="col-sm-9">
-								<input type='text' id='InvDate' name='InvDate' class='form-control'/>
+<!--								<input type='text' id='InvDate' name='InvDate' class='form-control' ng-model='invoice.InvDate'/>-->
+                                <md-datepicker ng-model="invoice.InvDate" md-placeholder="Enter date" md-hide-icons="calendar"></md-datepicker>
 								
 							</div>			
 						</div>
@@ -197,7 +198,8 @@
 								<div class="form-group">
 									<label class="col-sm-4 control-label">PayDate</label>
 									<div class="col-sm-8">
-										<input type='text' id='PayDate' name='PayDate' class='form-control'/>
+<!--										<input type='text' id='PayDate' name='PayDate' class='form-control'/>-->
+                                         <md-datepicker ng-model="invoice.PayDate" md-placeholder="Enter date" md-hide-icons="calendar"></md-datepicker>
 									</div>							
 								</div>
 							</div>

@@ -351,43 +351,48 @@ class Invoices {
 			$sql = "UPDATE Invoices SET " ;
             if($this->Odometer != ""){
 				$sql = $sql . " Odometer = " . $this->Odometer . ", ";
+            } else {
+                $sql = $sql . " Odometer = null, ";
             }
             if($this->TotalAmount != ""){
 				$sql = $sql . " TotalAmount = " . $this->TotalAmount . ", ";
-            }   
+            } else {
+                $sql = $sql . " TotalAmount = null, ";
+            }
             if($this->PaidAmount != ""){
 				$sql = $sql . " PaidAmount = " . $this->PaidAmount . ", ";
-            }  
+            } else {
+                $sql = $sql . " PaidAmount = null, ";
+            }            
+				
+				
+
             if($this->UsersID != ""){
 				$sql = $sql . " UsersID = " . $this->UsersID . ", ";
-            }              
+            } else {
+                $sql = $sql . " UsersID = null, ";
+            } 
             
-            if($this->JobDescription != ""){
-				$sql = $sql . " JobDescription = '" . $this->JobDescription . "', ";
-            }              
-            if($this->ResultNotes != ""){
-				$sql = $sql . " ResultNotes = '" . $this->ResultNotes . "', ";
-            }              
-            if($this->QuotationYN != ""){
-				$sql = $sql . " QuotationYN = '" . $this->QuotationYN . "', ";
-            }              
-            if($this->PreviousYN != ""){
-				$sql = $sql . " PreviousYN = '" . $this->PreviousYN . "', ";
-            }              
-            if($this->FullyPaidYN != ""){
-				$sql = $sql . " FullyPaidYN = '" . $this->FullyPaidYN . "', ";
-            }              
-            if($this->PayMethodCd != ""){
-				$sql = $sql . " PayMethodCd = '" . $this->PayMethodCd . "', ";
-            }              
-            if($this->PayDate != ""){
-				$sql = $sql . " PayDate = '" . $this->PayDate . "', ";
-            }              
-                        
-            $sql = $sql . " InvDate = '" . $this->InvDate . "' ";
+            $sql = $sql . " JobDescription = '" . $this->JobDescription . "', ";
+            $sql = $sql . " ResultNotes = '" . $this->ResultNotes . "', ";
+
+            $sql = $sql . " QuotationYN = '" . $this->QuotationYN . "', ";
+            $sql = $sql . " PreviousYN = '" . $this->PreviousYN . "', ";
+            $sql = $sql . " FullyPaidYN = '" . $this->FullyPaidYN . "', ";
+            $sql = $sql . " PayMethodCd = '" . $this->PayMethodCd . "', ";
+            if($this->PayDate != "" && $this->PayDate != 'Invalid date'){
+                $sql = $sql . " PayDate = '" . $this->PayDate . "', ";
+            } else {
+                $sql = $sql . " PayDate = null, ";
+            }
+            if($this->InvDate != "" && $this->InvDate != 'Invalid date'){
+                $sql = $sql . " InvDate = '" . $this->InvDate . "' ";
+            } else {
+                $sql = $sql . " InvDate = null ";
+            }
             $sql = $sql . " WHERE ID = " . $this->ID;
              
-             
+//            echo $sql;
 //			$sql = $sql . " InvDate = :InvDate, " .
 //							" JobDescription = :JobDescription, " .
 //							" ResultNotes = :ResultNotes, " .

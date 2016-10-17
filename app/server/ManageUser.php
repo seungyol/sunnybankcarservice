@@ -48,12 +48,13 @@
         $user->CompaniesID = $_POST["CompaniesID"];
         
 		$result = $user->save();
-		
+		if(isset($_POST["CompanyName"])) {
+            $companyResult = Companies::updateCompanyName($user->CompaniesID , $_POST["CompanyName"]);
+            if($companyResult["affectedRows"] == 1) {
+                $result["affectedRows"] = 1;
+            }
+        }
 		echo json_encode($result);		
-//	}else if($action == 'SELECT'){
-//		$seluser = Users::selectByID($_POST["ID"]);
-//		echo json_encode($seluser);
-//		flush();
 	}else {
 		$result = Users::delete($_POST["ID"]);
 		echo json_encode($result);		

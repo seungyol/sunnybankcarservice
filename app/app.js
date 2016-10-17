@@ -13,7 +13,15 @@ angular.module('myApp', [
 ]).run(function($rootScope) {
     $rootScope.loginResult = null;
 })
-.config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
+.config(['$locationProvider', '$routeProvider','$mdDateLocaleProvider', function($locationProvider, $routeProvider, $mdDateLocaleProvider) {
+  $mdDateLocaleProvider.formatDate = function(date) {
+    return date ? moment(date).format('DD/MM/YYYY') : '';
+  };  
+
+  $mdDateLocaleProvider.parseDate = function(dateString) {
+    var m = moment(dateString, 'DD/MM/YYYY', true);
+    return m.isValid() ? m.toDate() : new Date(NaN);
+  };    
   $locationProvider.hashPrefix('!');
   $routeProvider
     .when('/customer-list',{
