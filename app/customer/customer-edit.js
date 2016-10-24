@@ -9,7 +9,6 @@ angular.module('myApp')
     AuthFactory.checkLogin();
     $rootScope.loginResult = AuthFactory.getLoginDetail();
     
-//    console.log("$routeParams.ID", $routeParams.id);
     if($routeParams.id == 0){
         CustomerFactory.AddBlankCustomer();
         return;
@@ -42,7 +41,12 @@ angular.module('myApp')
     $scope.CarPopup = {};
     
     $scope.SaveCustomer = function() {
-      $scope.cust.suburb = $scope.selectedSuburb.label;
+      if(typeof($scope.selectedSuburb) === 'string'){
+          $scope.cust.suburb = $scope.selectedSuburb;
+      } else {
+          $scope.cust.suburb = $scope.selectedSuburb.label;
+      }
+      
       CustomerFactory.SaveCustomer($scope.cust);
     };    
     
@@ -109,7 +113,6 @@ angular.module('myApp')
       $scope.cust = response.cust;
       $scope.selectedSuburb = $scope.cust.suburb;
       $scope.selectedItemChange = function(item) {
-//          console.log("item", item,"typeof(item)", typeof(item));
           if(typeof(item) === 'object'){
               $scope.cust.state = item.value.split(',')[1];
               $scope.cust.postcode = item.value.split(',')[2];

@@ -31,6 +31,8 @@
 	}else {
 		$affectedRow = $invoiceParts->delete($invoiceParts->ID);
 	}
+    //Update total amount of Invoices table
+    Invoices::updateInvoiceTotalAmount($invoiceParts->InvoicesID);
 	echo $affectedRow;
 	
 ?> 

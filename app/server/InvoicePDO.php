@@ -35,12 +35,12 @@ class Invoices {
 			}
 			
 			if($param["QuotationYN"] == "N"){
-				$sql = $sql . " AND inv.QuotationYN IS NULL ";
+				$sql = $sql . " AND (inv.QuotationYN IS NULL or inv.QuotationYN = 'N' )";
 			}else if ($param["QuotationYN"] == "Y"){
 				$sql = $sql . " AND inv.QuotationYN = 'Y' ";
 			}
 			if($param["PreviousYN"] == "N"){
-				$sql = $sql . " AND inv.PreviousYN IS NULL ";
+				$sql = $sql . " AND (inv.PreviousYN IS NULL or inv.PreviousYN  = 'N')";
 			}else if ($param["PreviousYN"] == "Y"){
 				$sql = $sql . " AND inv.PreviousYN = 'Y' ";
 			}
@@ -51,7 +51,8 @@ class Invoices {
 			$stmt->bindParam(':CompaniesID',$param["CompaniesID"]);
 			$stmt->bindParam(':FromDate',$param["InvDateFrom"]);
 			$stmt->bindParam(':ToDate',$param["InvDateTo"]);
-			
+//			echo $sql;
+            
 			$stmt->execute();
 			$invoice = $stmt->fetch(PDO::FETCH_ASSOC);
 		}catch(PDOException $e){
@@ -79,12 +80,12 @@ class Invoices {
 				$sql = $sql . " AND inv.PayMethodCd = '" . $param["PayMethodCd"] . "'";
 			}
 			if($param["QuotationYN"] == "N"){
-				$sql = $sql . " AND inv.QuotationYN IS NULL ";
+				$sql = $sql . " AND (inv.QuotationYN IS NULL or inv.QuotationYN = 'N' )";
 			}else if ($param["QuotationYN"] == "Y"){
 				$sql = $sql . " AND inv.QuotationYN ='Y' ";
 			}
 			if($param["PreviousYN"] == "N"){
-				$sql = $sql . " AND inv.PreviousYN IS NULL ";
+				$sql = $sql . " AND (inv.PreviousYN IS NULL or inv.PreviousYN  = 'N')";
 			}else if ($param["PreviousYN"] == "Y"){
 				$sql = $sql . " AND inv.PreviousYN = 'Y' ";
 			}
@@ -106,6 +107,29 @@ class Invoices {
 		return $invoice;
 	}	
 
+    public static function updateInvoiceTotalAmount($id) {
+        include 'DBConstant.php';	
+		
+		$sql = null;
+		$affectedRows = -1;
+		try{
+			$dbc = new PDO('mysql:host=' . $HOST_NM . ';dbname=' . $DB_NM, $USER_ID,$PASSWORD, array( PDO::ATTR_PERSISTENT => true));
+
+			$sql = "UPDATE Invoices SET TotalAmount = (select sum(unitcost * qty) from invoiceParts where InvoicesID = :InvoicesID) WHERE ID = :InvoicesID";
+		  
+			$stmt = $dbc->prepare($sql);
+            $stmt->bindParam(':InvoicesID', $id);
+            $stmt->execute();
+            $affectedRows = $stmt->rowCount();
+		}catch(PDOException $e){
+            echo "ERROR" . $e;
+			print "ERROR:" . $e->getMessage() . "<br/>";
+			print "SQL:" . $sql;
+			die();		
+		}
+		
+		return $affectedRows;	        
+    }
 	
 	/**
 	 * Get the invoice details with ID
@@ -222,7 +246,7 @@ class Invoices {
 
             $sql = "SELECT * FROM (" .
 			$sql = "SELECT inv.ID,inv.InvDate as InvDate, CONCAT(cu.FirstName ,' ', cu.LastName) as CustomerName, " .
-					" 		cc.RegNo, inv.PaidAmount, inv.TotalAmount, " .
+					" 		cc.RegNo, IFNULL(inv.TotalAmount, 0) as TotalAmount, IFNULL(inv.PaidAmount, 0) as PaidAmount,  " .
 					"		CONCAT(Users.FirstName , ' ' , Users.LastName) as Technician,cu.ID as CustomersID, inv.CustomerCarsID  " .
 					" FROM CustomerCars cc INNER JOIN Invoices inv ON cc.ID = inv.CustomerCarsID " .
 					"		LEFT OUTER JOIN Users ON inv.UsersID = Users.ID " .					
@@ -232,8 +256,10 @@ class Invoices {
 				$sql = $sql . " and  inv.PreviousYN is NULL and  inv.QuotationYN = 'Y' ";
 			}else if($type=='P'){
 				$sql = $sql . " and  inv.PreviousYN = 'Y' ";
+            }else if($type=='U'){
+                $sql = $sql . " and  (inv.PreviousYN is NULL or inv.PreviousYN='N') and  (inv.QuotationYN is NULL or inv.QuotationYN = 'N') and (inv.FullyPaidYN is NULL or inv.FullyPaidYN = 'N') ";                
 			}else {
-				$sql = $sql . " and  inv.PreviousYN is NULL and  inv.QuotationYN is NULL ";
+				$sql = $sql . " and  (inv.PreviousYN is NULL or inv.PreviousYN='N') and  (inv.QuotationYN is NULL or inv.QuotationYN = 'N') ";
 			}
 			
 			$sql = $sql . " GROUP BY inv.ID" .
@@ -275,8 +301,10 @@ class Invoices {
 				$sql = $sql . " and  inv.PreviousYN is NULL and  inv.QuotationYN = 'Y' ";
 			}else if($type=='P'){
 				$sql = $sql . " and  inv.PreviousYN = 'Y' ";
+            }else if($type=='U'){
+                $sql = $sql . " and  inv.PreviousYN != 'Y' and  inv.QuotationYN != 'Y' and (inv.FullyPaidYN is NULL or inv.FullyPaidYN = 'N') ";                
 			}else {
-				$sql = $sql . " and  inv.PreviousYN is NULL and  inv.QuotationYN is NULL ";
+				$sql = $sql . " and  (inv.PreviousYN is NULL or inv.PreviousYN='N') and  (inv.QuotationYN is NULL or inv.QuotationYN = 'N') ";
 			}
 			
 			$sql = $sql . " GROUP BY inv.ID" .

@@ -9,7 +9,6 @@ angular.module('myApp')
           $timeout(function() {
             
             $window.setTimeout(function(){
-                console.log('element[0]=',element[0]);
                 element[0].focus();
                 element[0].focus();
             },100); 

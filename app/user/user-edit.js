@@ -34,9 +34,7 @@ angular.module('myApp')
       $scope.roles = result.roles;
       $scope.selectedSuburb = $scope.user.suburb;
       $scope.selectedItemChange = function(item) {
-          console.log("item", item,"typeof(item)", typeof(item));
           if(typeof(item) === 'object'){
-              console.log("setting state postcode suburb");
               $scope.user.state = item.value.split(',')[1];
               $scope.user.postcode = item.value.split(',')[2];
               $scope.user.suburb =  item.display;          
@@ -44,11 +42,9 @@ angular.module('myApp')
       };        
   });
   $scope.save = function(form) {    
-      $scope.user.suburb = $scope.selectedSuburb.label;
-      console.log(form);
+      $scope.user.suburb = $scope.selectedSuburb != null ? $scope.selectedSuburb.label : null;
+      console.log(form, form.$invalid);
       if(form.$invalid){
-//        console.log(form.$error.required, typeof(form.$error.required));
-//        console.log(form.$error.required[0]);
         var requiredFields = form.$error.required.map(function(obj){ return obj.$name;});
         AppAlert.add("warning","Entry is invalid. Required fields[" + requiredFields.join(',') + ']');  
         for(var idx in requiredFields){

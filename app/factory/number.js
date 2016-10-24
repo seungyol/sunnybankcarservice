@@ -2,11 +2,8 @@ angular.module('myApp')
   .factory('numberFactory', function() {
     return {
       integerOnly: function(input, length) {
-          console.log(input);
-          input.attr('maxlength',length);
-          
+          input.attr('maxlength',length);          
           input.keydown(function (event) {
-            console.log("keydown", event);
             if(
               (event.keyCode >= 48 && event.keyCode <=57) ||
               (event.keyCode >= 96 && event.keyCode <= 105) ||

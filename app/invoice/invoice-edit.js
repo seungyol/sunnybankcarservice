@@ -12,21 +12,9 @@ angular.module('myApp')
     $scope.partdtl = {};
     $scope.invoice = {};
 
-    //for getting input value
-//    $("#InvDate").datepicker('update');
-//    $("#PayDate").datepicker('update');
-//    $("#InvDate").on("changeDate", function() {
-//        console.log("InvDate changeDate", $("#InvDate").val());
-//        $scope.invoice.InvDate = $("#InvDate").val();
-//    });      
-//    $("#PayDate").on("changeDate", function() {
-//        console.log("PayDate changeDate", $("#PayDate").val());
-//        $scope.invoice.PayDate = $("#PayDate").val();
-//    });         
     //load the invoice & car detail
     InvoiceFactory.selectInvoice($routeParams.ID, $routeParams.CustomersID, $routeParams.CustomerCarsID, $rootScope.loginResult.CompaniesID,
       function(data) {
-//        console.log("data.invoice", data.invoice);
         $scope.car = data.car;
         $scope.invoice.ID = data.invoice.ID;
         $scope.invoice.CustomersID = data.invoice.CustomersID;
@@ -42,13 +30,8 @@ angular.module('myApp')
         $scope.invoice.PayMethodCd = data.invoice.PayMethodCd;
         $scope.invoice.UsersID = data.invoice.UsersID;
         
-//        console.log('aaaa',moment(data.invoice.InvDate,'DD/MM/YYYY'));
         $scope.invoice.InvDate = moment(data.invoice.InvDate,'DD/MM/YYYY').toDate();
         $scope.invoice.PayDate =data.invoice.PayDate ? moment(data.invoice.PayDate,'DD/MM/YYYY').toDate() : null;
-//        $("#InvDate").val(data.invoice.InvDate);
-//        $("#PayDate").val(data.invoice.PayDate);
-//        $("#InvDate").datepicker('update');
-//        $("#PayDate").datepicker('update');
         $scope.invoice.amount = $scope.total();
         $scope.customer = data.customer;
         $scope.users = data.users;
@@ -82,13 +65,10 @@ angular.module('myApp')
     };
       
     $scope.changePaidAmount = function(){
-        console.log("$scope.invoice.FullyPaidYN", $scope.invoice.FullyPaidYN);
         if($scope.invoice.FullyPaidYN === 'Y'){
-            console.log("Number($scope.invoice.PaidAmount)",Number($scope.invoice.PaidAmount));
             if(Number($scope.invoice.PaidAmount) == 0){
                 $scope.invoice.PaidAmount = $scope.total();
             }
-
         }
     };
 				
@@ -119,10 +99,7 @@ angular.module('myApp')
     };
 
 				
-//    $("#InvDate").datepicker({format: 'dd/mm/yyyy'});
-//    $("#PayDate").datepicker({format: 'dd/mm/yyyy'});
     $("#divPartPopup").on('shown.bs.modal', function() {
-        console.log('show.bs.modal')
         $("#PartName").focus();
     });        
     $scope.AddPart = function(){
@@ -133,12 +110,7 @@ angular.module('myApp')
         $("#PartName").focus();
     };
     
-    $scope.saveInvoice = function(){
-//      console.log("$scope.parent",$scope.parent);
-//      $scope.invoice.InvDate = moment($scope.invoice.InvDate).format('DD/MM/YYYY');
-//      $scope.invoice.PayDate = moment($scope.invoice.PayDate).format('DD/MM/YYYY');
-//      console.log("$scope.invoice",$scope.invoice);
-        
+    $scope.saveInvoice = function(){        
       InvoiceFactory.saveInvoice($scope.invoice,moment($scope.invoice.InvDate).format('DD/MM/YYYY'),moment($scope.invoice.PayDate).format('DD/MM/YYYY'));    
     };
 

@@ -6,10 +6,8 @@ angular.module('myApp', [
   'ngCookies',
   'ngMaterial',
   'ngMessages',
-  'myApp.version',
-  'ui.bootstrap',
-  'MyApp'
-  
+  'ui.bootstrap'
+//  'MyApp'  
 ]).run(function($rootScope) {
     $rootScope.loginResult = null;
 })
@@ -42,6 +40,9 @@ angular.module('myApp', [
     }).when('/quote-list', {
       templateUrl: 'invoice/quote-list.html',
       controller: 'QuoteListController'
+    }).when('/unpaid-list', {
+      templateUrl: 'invoice/unpaid-list.html',
+      controller: 'UnpaidListController'      
     }).when('/invoice-edit/:ID/:CustomersID/:CustomerCarsID',{
                templateUrl: 'invoice/invoice-edit.html',
                controller: 'InvoiceEditController'

@@ -2,7 +2,8 @@
 <!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> 
+<html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -42,6 +43,7 @@
                 <li><a href='#!/invoice-list' >Invoice</a></li>
                 <li><a href='#!/quote-list' >Quote</a></li>
                 <li><a href='#!/previous-list' >Previous Invoice</a></li>		
+                <li><a href='#!/unpaid-list' >Unpaid</a></li>	
                 <li><a href='#!/user-list'  id='linkUserList' ng-hide="loginResult.RoleName != 'Director' && loginResult.RoleName != 'Super User'">User</a></li>
                 <li><a href='#!/setlement' ng-hide="loginResult.RoleName != 'Director' && loginResult.RoleName != 'Super User'">Settlement</a></li>
                 <li><a href='#!/partinvoice-list'  id='linkUserList'>Part Invoice</a></li>
@@ -112,8 +114,9 @@
   <script src="invoice/invoice-list.js"></script>
   <script src="invoice/previous-list.js"></script>
   <script src="invoice/quote-list.js"></script>
+  <script src="invoice/unpaid-list.js"></script>    
   <script src="invoice/invoice-edit.js"></script>
-  <script src="customer/stateautocomplete.js"></script>
+<!--  <script src="customer/stateautocomplete.js"></script>-->
   <script src="user/user-list.js"></script>
   <script src="user/user-edit.js"></script>
   <script src="settlement/settlement.js"></script>
@@ -130,9 +133,11 @@
   <script src="factory/part.js"></script>
   <script src="directive/number.js"></script>
   <script src="directive/focusme.js"></script>
+<!--
   <script src="components/version/version.js"></script>
   <script src="components/version/version-directive.js"></script>
   <script src="components/version/interpolate-filter.js"></script>
-  <script src='/js/common.js'></script>
+-->
+<!--  <script src='/js/common.js'></script>-->
 </body>
 </html>
