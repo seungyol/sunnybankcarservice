@@ -69,7 +69,6 @@ angular.module('myApp')
 
   
     function showCarPopup(car) {
-
       var modalInstance = $uibModal.open({
         animation: true,
         templateUrl: 'CarDetail.html',

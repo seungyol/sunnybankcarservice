@@ -210,7 +210,7 @@
         </div>
         <div class="modal-footer">
             <button type='button' class='btn btn-primary' id='btnCarSave' ng-click="SaveCar()">Save</button>
-            <button type='button' class='btn btn-danger' id='btnCarDelete' ng-click="DeleteCar()" ng-hide="CarPopup == null">Delete</button>			
+            <button type='button' class='btn btn-danger' id='btnCarDelete' ng-click="DeleteCar()" ng-hide="CarPopup == null || CarPopup.MaxINV != null">Delete</button>			
         </div>
 	 
     </script>

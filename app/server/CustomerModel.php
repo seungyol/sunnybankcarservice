@@ -112,10 +112,14 @@ class Customers extends Person {
 		try{
 			$dbc = new PDO('mysql:host=' . $HOST_NM . ';dbname=' . $DB_NM, $USER_ID,$PASSWORD, array( PDO::ATTR_PERSISTENT => true));
 
-			$sql = "SELECT cc.ID, cmk.MakerName, cm.ModelName,cc.RegNo, cc.Year,cc.VIN, cc.EngineNo,cc.ManualTransmissionYN, if(cc.ManualTransmissionYN = 'Y','Manual','Auto') as Transmission, cc.CarModelsID, cm.CarMakersID " . 
+			$sql = "SELECT cc.ID, cmk.MakerName, cm.ModelName,cc.RegNo, cc.Year,cc.VIN, cc.EngineNo,cc.ManualTransmissionYN, if(cc.ManualTransmissionYN = 'Y','Manual','Auto') as Transmission, cc.CarModelsID, cm.CarMakersID, max(iv.ID) MaxINV " . 
 					" FROM CustomerCars cc INNER JOIN CarModels cm ON cc.CarModelsID = cm.ID " .
 					" INNER JOIN CarMakers cmk ON cm.CarMakersID = cmk.ID " . 
-					" WHERE cc.CustomersID = :id and cc.Deleted is NULL ORDER BY cc.ID";
+                    " LEFT OUTER JOIN Invoices iv on cc.ID = iv.customercarsid " . 
+					" WHERE cc.CustomersID = :id and cc.Deleted is NULL " . 
+                    " GROUP BY  cc.ID, cmk.MakerName, cm.ModelName,cc.RegNo, cc.Year,cc.VIN, cc.EngineNo, " .
+                    " cc.ManualTransmissionYN, Transmission, cc.CarModelsID, cm.CarMakersID " . 
+                    " ORDER BY cc.ID";
 			$stmt = $dbc->prepare($sql);
 			$stmt->bindParam(':id',$id);
 			$stmt->execute();
