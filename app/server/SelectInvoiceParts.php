@@ -5,7 +5,7 @@
 	$invoiceParts = InvoiceParts::selectInvoiceParts($ID);
 	// var_dump($invoiceParts);
 	foreach($invoiceParts as $part){
-		$part->LineTotal = number_format(floor($part->LineTotal));
+//		$part->LineTotal = number_format(floor($part->LineTotal));
 	}
 	$php = json_encode($invoiceParts);
 	echo $php;	

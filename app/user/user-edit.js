@@ -42,8 +42,11 @@ angular.module('myApp')
       };        
   });
   $scope.save = function(form) {    
-      $scope.user.suburb = $scope.selectedSuburb != null ? $scope.selectedSuburb.label : null;
-      console.log(form, form.$invalid);
+      if(typeof($scope.selectedSuburb) === 'string'){
+          $scope.user.suburb = $scope.selectedSuburb;
+      } else {
+          $scope.user.suburb = $scope.selectedSuburb.label;
+      }      
       if(form.$invalid){
         var requiredFields = form.$error.required.map(function(obj){ return obj.$name;});
         AppAlert.add("warning","Entry is invalid. Required fields[" + requiredFields.join(',') + ']');  

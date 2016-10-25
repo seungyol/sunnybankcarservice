@@ -2,7 +2,7 @@
 
 angular.module('myApp')
 .controller('InvoiceEditController', 
-  ['$location','$http','$routeParams','$route', '$cookies','AppAlert', 'autocompleteFactory','ConfirmFactory','AuthFactory', 'InvoiceFactory','PartFactory', '$rootScope',   '$scope', 
+  ['$location','$http','$routeParams','$route', '$cookies','AppAlert', 'autocompleteFactory','ConfirmFactory','AuthFactory', 'InvoiceFactory','PartFactory', '$rootScope', '$scope', 
   function($location, $http, $routeParams,$route, $cookies,AppAlert, autocompleteFactory,ConfirmFactory,AuthFactory,InvoiceFactory,PartFactory, $rootScope, $scope){
     //Login check & Add login session to rootScope                                        
     AuthFactory.checkLogin();
@@ -16,20 +16,7 @@ angular.module('myApp')
     InvoiceFactory.selectInvoice($routeParams.ID, $routeParams.CustomersID, $routeParams.CustomerCarsID, $rootScope.loginResult.CompaniesID,
       function(data) {
         $scope.car = data.car;
-        $scope.invoice.ID = data.invoice.ID;
-        $scope.invoice.CustomersID = data.invoice.CustomersID;
-        $scope.invoice.Odometer = data.invoice.Odometer;
-        $scope.invoice.JobDescription = data.invoice.JobDescription;
-        $scope.invoice.ResultNotes = data.invoice.ResultNotes;
-        $scope.invoice.QuotationYN = data.invoice.QuotationYN;
-        $scope.invoice.PreviousYN = data.invoice.PreviousYN;
-        $scope.invoice.FullyPaidYN = data.invoice.FullyPaidYN;
-        $scope.invoice.CustomerCarsID = data.invoice.CustomerCarsID;
-        $scope.invoice.TotalAmount = data.invoice.TotalAmount;
-        $scope.invoice.PaidAmount = data.invoice.PaidAmount;
-        $scope.invoice.PayMethodCd = data.invoice.PayMethodCd;
-        $scope.invoice.UsersID = data.invoice.UsersID;
-        
+        $scope.invoice = data.invoice;
         $scope.invoice.InvDate = moment(data.invoice.InvDate,'DD/MM/YYYY').toDate();
         $scope.invoice.PayDate =data.invoice.PayDate ? moment(data.invoice.PayDate,'DD/MM/YYYY').toDate() : null;
         $scope.invoice.amount = $scope.total();
@@ -38,7 +25,7 @@ angular.module('myApp')
         $scope.paymethods = data.paymethods;
 
         if($scope.invoice.ID > 0){
-            if($scope.invoice.QuotationYN != null){
+            if($scope.invoice.QuotationYN ==='Y'){
                 $scope.title= "Quote Details (No : " + $scope.invoice.ID + ")";
             }else {
                 $scope.title= "Invoice Details (No : " + $scope.invoice.ID + ")";
@@ -93,7 +80,6 @@ angular.module('myApp')
     
     $scope.part = {};
     $scope.partNameChange = function() {
-//      console.log($scope.partname);
 //      $scope.id = "";
 //      $scope.unitcost = "";
     };
@@ -101,13 +87,13 @@ angular.module('myApp')
 				
     $("#divPartPopup").on('shown.bs.modal', function() {
         $("#PartName").focus();
+        $("#PartName").select();
     });        
     $scope.AddPart = function(){
-//        $scope.shouldBeOpen = true;
         $scope.partdtl = {};
         $( "#divPartPopup").modal("show");
         setupPartAutocomplete();
-        $("#PartName").focus();
+
     };
     
     $scope.saveInvoice = function(){        
@@ -144,7 +130,6 @@ angular.module('myApp')
     $scope.open = function(obj){
 
         $("#divPartPopup").modal('show');
-//        $scope.shouldBeOpen = true;
         $scope.partdtl.id = obj.ID;
         $scope.partdtl.partsid = obj.PartsID;
         $scope.partdtl.qty = obj.Qty;
@@ -167,10 +152,9 @@ angular.module('myApp')
     };
     $scope.savePart = function(e){
         var part = genPartData("SAVE");
-//        console.log("savePart part", part);
         PartFactory.savePart(part, function(data){
-            if(Number(data) > 1){
-                $scope.partdtl.id = data.trim();
+            if(Number(data.ID) > 0){
+                $scope.partdtl.id = data.ID;
                 $scope.parts.push({ID: $scope.partdtl.id, 
                                    PartsID: $scope.partdtl.partsid, 
                                    Qty: $scope.partdtl.qty, 

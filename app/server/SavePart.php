@@ -21,10 +21,12 @@
 		
 		$invoiceParts->PartsID = $partsid;
 	}
-	
+	$newID = 0;
+    $affectedRow = 0;
 	if($action == 'SAVE'){
 		if($invoiceParts->ID == ""){
-			$affectedRow = $invoiceParts->insert();
+			$newID = $invoiceParts->insert();
+            $affectedRow = 1;
 		}else {
 			$affectedRow = $invoiceParts->update();
 		}
@@ -33,6 +35,12 @@
 	}
     //Update total amount of Invoices table
     Invoices::updateInvoiceTotalAmount($invoiceParts->InvoicesID);
-	echo $affectedRow;
+
+    $result = array(
+        "affectedRows" => $affectedRow,
+        "ID" => $newID
+    );
+          
+	echo json_encode($result);
 	
 ?> 

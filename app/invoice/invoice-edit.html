@@ -126,10 +126,10 @@
 								</thead>
 								<tbody>
 									<tr ng-repeat="part in parts">
-											<td class='tdLeft link' ng-click="open(part)" data-id='{{part.ID}}' data-partsid='{{part.PartsID}}' data-qty='{{part.Qty}}' data-unitcost='{{part.UnitCost}}'>{{part.PartName}}</td>
-											<td class='tdRight Qty' >{{part.Qty}}</td>
-											<td class='tdRight UnitCost' >{{part.UnitCost}}</td>
-											<td class='tdRight LineTotal' >{{part.LineTotal}}</td>	
+                                        <td class='tdLeft link' ng-click="open(part)" data-id='{{part.ID}}' data-partsid='{{part.PartsID}}' data-qty='{{part.Qty}}' data-unitcost='{{part.UnitCost}}'>{{part.PartName}}</td>
+                                        <td class='tdRight Qty' >{{part.Qty |decimal2}}</td>
+                                        <td class='tdRight UnitCost' >{{part.UnitCost | decimal2}}</td>
+                                        <td class='tdRight LineTotal' >{{part.LineTotal | decimal2}}</td>	
 									</tr>
 								</tbody>
 							</table>					
@@ -210,7 +210,6 @@
 
 				</div>		
 				<div class='row'>
-					
 					<button type='button' class="btn btn-responsive btn-warning"  id='btnSaveInvoice' ng-click="saveInvoice()">Save</button>
 					<button type='button' class="btn btn-responsive btn-success" id='btnPrintQuote' ng-click='printQuote()'>Print Quote</button>
 					<button type='button' class="btn btn-responsive btn-success" id='btnPrintJobOrder' ng-click='printJobOrder()'>Print Job Order</button>
@@ -234,7 +233,7 @@
 							<div class="form-group">
 								<label class='col-sm-2 control-label'>Part</label>
 								<div class='col-sm-10'>
-									<input type='text' autofocus ng-model='partdtl.partname' id='PartName' name='PartName' class="form-control" ng-change="partNameChange()"  />
+									<input type='text' ng-model='partdtl.partname' id='PartName' name='PartName' class="form-control" ng-change="partNameChange()"  />
 								</div>
 							</div>
 							<div class="form-group">

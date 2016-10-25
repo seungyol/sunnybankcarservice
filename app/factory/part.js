@@ -29,7 +29,7 @@ angular.module('myApp')
             });
         },
         deletePart : function(part,callback){
-          var dialog = BootstrapDialog.confirm('Are you really want to delete this part[' + part.partname + ']?', function(result){
+          var dialog = BootstrapDialog.confirm('Are you really want to delete this part[' + part.PartName + ']?', function(result){
             if(result) {
                 $http.post("server/SavePart.php",
                     $.param(part),
