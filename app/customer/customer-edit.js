@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('myApp')
-.controller('CustomerEditController', ['$q', '$location','$http','$routeParams','$route', '$cookies','AppAlert',
-                                          'autocompleteFactory','ConfirmFactory',  '$uibModal','$rootScope', '$scope','AuthFactory', 'CustomerFactory',
+.controller('CustomerEditController', ['$q', '$location','$http','$routeParams','$route', '$cookies','AppAlert','ConfirmFactory',  '$uibModal','$rootScope', '$scope','AuthFactory', 'CustomerFactory',
   function($q, $location, $http, $routeParams,$route,
-        $cookies,AppAlert, autocompleteFactory,ConfirmFactory, $uibModal,$rootScope, $scope,AuthFactory, CustomerFactory){
+        $cookies,AppAlert,ConfirmFactory, $uibModal,$rootScope, $scope,AuthFactory, CustomerFactory){
   //Login check & Add login session to rootScope                                        
     AuthFactory.checkLogin();
     $rootScope.loginResult = AuthFactory.getLoginDetail();
@@ -43,8 +42,10 @@ angular.module('myApp')
     $scope.SaveCustomer = function() {
       if(typeof($scope.selectedSuburb) === 'string'){
           $scope.cust.suburb = $scope.selectedSuburb;
-      } else {
+      } else if(typeof($scope.selectedSuburb) === 'object' && $scope.selectedSuburb != null){
           $scope.cust.suburb = $scope.selectedSuburb.label;
+      } else {
+          $scope.cust.suburb = "";
       }
       
       CustomerFactory.SaveCustomer($scope.cust);

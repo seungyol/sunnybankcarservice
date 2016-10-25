@@ -1,5 +1,5 @@
 angular.module('myApp')
-  .controller('UserDetailController',['autocompleteFactory',  '$route', 'AppAlert', '$location', '$rootScope', 'AuthFactory', '$routeParams', '$http','$scope', function(autocompleteFactory, $route, AppAlert, $location, $rootScope, AuthFactory, $routeParams, $http, $scope) {
+  .controller('UserDetailController',['$route', 'AppAlert', '$location', '$rootScope', 'AuthFactory', '$routeParams', '$http','$scope', function($route, AppAlert, $location, $rootScope, AuthFactory, $routeParams, $http, $scope) {
   //Login check & Add login session to rootScope                                        
   AuthFactory.checkLogin();
   $rootScope.loginResult = AuthFactory.getLoginDetail();
@@ -44,9 +44,12 @@ angular.module('myApp')
   $scope.save = function(form) {    
       if(typeof($scope.selectedSuburb) === 'string'){
           $scope.user.suburb = $scope.selectedSuburb;
-      } else {
+      } else if(typeof($scope.selectedSuburb) === 'object' && $scope.selectedSuburb != null) {
           $scope.user.suburb = $scope.selectedSuburb.label;
-      }      
+      } else {
+          $scope.user.suburb = "";
+      }
+      
       if(form.$invalid){
         var requiredFields = form.$error.required.map(function(obj){ return obj.$name;});
         AppAlert.add("warning","Entry is invalid. Required fields[" + requiredFields.join(',') + ']');  

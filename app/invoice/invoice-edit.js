@@ -2,8 +2,8 @@
 
 angular.module('myApp')
 .controller('InvoiceEditController', 
-  ['$location','$http','$routeParams','$route', '$cookies','AppAlert', 'autocompleteFactory','ConfirmFactory','AuthFactory', 'InvoiceFactory','PartFactory', '$rootScope', '$scope', 
-  function($location, $http, $routeParams,$route, $cookies,AppAlert, autocompleteFactory,ConfirmFactory,AuthFactory,InvoiceFactory,PartFactory, $rootScope, $scope){
+  ['$location','$http','$routeParams','$route', '$cookies','AppAlert','ConfirmFactory','AuthFactory', 'InvoiceFactory','PartFactory', '$rootScope', '$scope', 
+  function($location, $http, $routeParams,$route, $cookies,AppAlert,ConfirmFactory,AuthFactory,InvoiceFactory,PartFactory, $rootScope, $scope){
     //Login check & Add login session to rootScope                                        
     AuthFactory.checkLogin();
     $rootScope.loginResult = AuthFactory.getLoginDetail();
