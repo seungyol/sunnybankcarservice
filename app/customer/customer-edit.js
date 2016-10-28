@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('myApp')
-.controller('CustomerEditController', ['$q', '$location','$http','$routeParams','$route', '$cookies','AppAlert','ConfirmFactory',  '$uibModal','$rootScope', '$scope','AuthFactory', 'CustomerFactory',
+.controller('CustomerEditController', ['$q', '$location','$http','$routeParams','$route', 'AppAlert','ConfirmFactory',  '$uibModal','$rootScope', '$scope','AuthFactory', 'CustomerFactory',
   function($q, $location, $http, $routeParams,$route,
-        $cookies,AppAlert,ConfirmFactory, $uibModal,$rootScope, $scope,AuthFactory, CustomerFactory){
+        AppAlert,ConfirmFactory, $uibModal,$rootScope, $scope,AuthFactory, CustomerFactory){
   //Login check & Add login session to rootScope                                        
     AuthFactory.checkLogin();
     $rootScope.loginResult = AuthFactory.getLoginDetail();
