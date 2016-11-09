@@ -526,7 +526,8 @@ class InvoiceParts {
 			$dbc = new PDO('mysql:host=' . $HOST_NM . ';dbname=' . $DB_NM, $USER_ID,$PASSWORD, array( PDO::ATTR_PERSISTENT => true));
 		
 			$sql = "SELECT ip.ID, ip.PartsID, pa.PartName, ip.Qty, ip.UnitCost, (ip.Qty * ip.UnitCost) as LineTotal " .
-					" FROM InvoiceParts ip INNER JOIN Parts pa ON ip.PartsID = pa.ID WHERE ip.InvoicesID = :InvoicesID" ;
+					" FROM InvoiceParts ip INNER JOIN Parts pa ON ip.PartsID = pa.ID WHERE ip.InvoicesID = :InvoicesID" .
+                    " ORDER BY ip.ID";
 			$stmt = $dbc->prepare($sql);
 			$stmt->bindParam(':InvoicesID',$InvoicesID);
 			$stmt->execute();
