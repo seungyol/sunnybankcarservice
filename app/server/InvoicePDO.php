@@ -253,13 +253,13 @@ class Invoices {
 					" 		INNER JOIN Customers cu ON cc.CustomersID = cu.ID " .
 					" WHERE cu.CompaniesID = :CompaniesID AND inv.Deleted is NULL";
 			if($type== 'Q'){
-				$sql = $sql . " and  inv.PreviousYN is NULL and  inv.QuotationYN = 'Y' ";
+				$sql = $sql . " and inv.QuotationYN = 'Y' ";
 			}else if($type=='P'){
-				$sql = $sql . " and  inv.PreviousYN = 'Y' ";
+				$sql = $sql . " and inv.PreviousYN = 'Y' ";
             }else if($type=='U'){
-                $sql = $sql . " and  (inv.PreviousYN is NULL or inv.PreviousYN='N') and  (inv.QuotationYN is NULL or inv.QuotationYN = 'N') and (inv.FullyPaidYN is NULL or inv.FullyPaidYN = 'N') ";                
+                $sql = $sql . " and  (inv.PreviousYN is NULL or inv.PreviousYN != 'Y') and  (inv.QuotationYN is NULL or inv.QuotationYN != 'Y') and (inv.FullyPaidYN is NULL or inv.FullyPaidYN != 'Y') ";                
 			}else {
-				$sql = $sql . " and  (inv.PreviousYN is NULL or inv.PreviousYN='N') and  (inv.QuotationYN is NULL or inv.QuotationYN = 'N') ";
+				$sql = $sql . " and  (inv.PreviousYN is NULL or inv.PreviousYN != 'Y') and  (inv.QuotationYN is NULL or inv.QuotationYN != 'Y') ";
 			}
 			
 			$sql = $sql . " GROUP BY inv.ID" .
@@ -298,13 +298,13 @@ class Invoices {
 					" 		INNER JOIN Customers cu ON cc.CustomersID = cu.ID " .
 					" WHERE cu.CompaniesID = :CompaniesID AND inv.Deleted is NULL";
 			if($type== 'Q'){
-				$sql = $sql . " and  inv.PreviousYN is NULL and  inv.QuotationYN = 'Y' ";
+				$sql = $sql . " and  inv.QuotationYN = 'Y' ";
 			}else if($type=='P'){
 				$sql = $sql . " and  inv.PreviousYN = 'Y' ";
             }else if($type=='U'){
-                $sql = $sql . " and  inv.PreviousYN != 'Y' and  inv.QuotationYN != 'Y' and (inv.FullyPaidYN is NULL or inv.FullyPaidYN = 'N') ";                
+                $sql = $sql . " and  (inv.PreviousYN IS NULL or inv.PreviousYN != 'Y') and  (inv.QuotationYN is NULL or inv.QuotationYN != 'Y') and (inv.FullyPaidYN is NULL or inv.FullyPaidYN != 'Y') ";                
 			}else {
-				$sql = $sql . " and  (inv.PreviousYN is NULL or inv.PreviousYN='N') and  (inv.QuotationYN is NULL or inv.QuotationYN = 'N') ";
+				$sql = $sql . " and  (inv.PreviousYN is NULL or inv.PreviousYN != 'Y') and  (inv.QuotationYN is NULL or inv.QuotationYN != 'Y') ";
 			}
 			
 			$sql = $sql . " GROUP BY inv.ID" .

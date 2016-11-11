@@ -122,3 +122,33 @@ h2.form-signin-heading {color:white;}
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+input[type='checkbox'].form-control {
+    height: 20px;
+}
+@media screen and (min-width: 993px) {
+    .InvoiceList th:nth-child(7), .InvoiceList td:nth-child(7) {
+        display:table-cell;
+    }
+}
+@media screen and (max-width: 992px) {
+    .InvoiceList th:nth-child(7), .InvoiceList td:nth-child(7) {
+        display:none;
+    }
+}
+@media screen and (max-width: 600px) {
+    .InvoiceList th:nth-child(7), .InvoiceList td:nth-child(7) {
+        display:none;
+    }
+}
+@media screen and (max-width: 360px) {
+/*
+    body {
+        font-size: 95% !important;
+    }
+*/
+/*
+    .InvoiceList th:nth-child(7), .InvoiceList td:nth-child(7) {
+        display:none;
+    }    
+*/
+}

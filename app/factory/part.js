@@ -1,16 +1,15 @@
-angular.module('myApp')
-  .factory('PartFactory', ['$http','AppAlert', function($http, AppAlert) {
+angular.module('commonApp')
+  .factory('PartFactory', ['$resource','AppAlert', function($resource, AppAlert) {
     return {
         savePart: function(part,callback) {
             var msg = [];
-
-            if(!part.PartName){
+            if(!part.partname){
                 msg.push('PartName');
             }
-            if(!part.Qty){
+            if(!part.qty){
                 msg.push('Qty');
             }
-            if(!part.UnitCost){
+            if(!part.unitcost){
                 msg.push('UnitCost');
             }			
 
@@ -18,29 +17,16 @@ angular.module('myApp')
                 AppAlert.add("warning","Mandatory inputs : " + msg.join('  '));
                 return false;				
             }
-    
-            $http.post("server/SavePart.php",
-                $.param(part),
-                {headers: {'Content-Type':'application/x-www-form-urlencoded;charset=utf-8'}}
-            ).success(function(data){
-                if(callback) {
-                    callback(data);
-                }
-            });
+            
+            var SaveParts = $resource('server/SavePart.php',{},{save: {method: 'POST', headers: {'Content-Type' :'application/x-www-form-urlencoded;charset=utf-8'}}});
+            return SaveParts.save($.param(part), callback);
         },
         deletePart : function(part,callback){
-          var dialog = BootstrapDialog.confirm('Are you really want to delete this part[' + part.PartName + ']?', function(result){
+            var dialog = BootstrapDialog.confirm('Are you really want to delete this part [' + part.partname + ']?', function(result){
             if(result) {
-                $http.post("server/SavePart.php",
-                    $.param(part),
-                    {headers: {'Content-Type':'application/x-www-form-urlencoded;charset=utf-8'}}
-                ).success(function(data){
-                    dialog.close();
-                    if(callback) {
-                        callback(data);
-                       
-                    }
-                });
+                var DeletePart = $resource("server/SavePart.php",{}, {save: {method:'POST', headers: {'Content-Type' :'application/x-www-form-urlencoded;charset=utf-8'}}});
+                return DeletePart.save($.param(part), callback);
+                
             }
           });		
         }     

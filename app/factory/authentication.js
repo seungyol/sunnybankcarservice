@@ -1,9 +1,7 @@
-angular.module('myApp')
+angular.module('commonApp')
   .factory('AuthFactory', ['$rootScope','$location', function($rootScope, $location) {
-//  var loginResult = null;
   return {
     checkLogin: function() {
-//      console.log("$rootScope", $rootScope);
       if(sessionStorage.getItem('CompaniesID') === null){
         alert("You must login first!");
         $location.path('/login');

@@ -68,7 +68,7 @@
                     <input type='text' id='StreetAddress'  class="form-control" name='StreetAddress' placeholder='Street Address' ng-model="user.StreetAddress"  />
 <!--                    <input type='text' id='Suburb'  class="form-control" name='suburb' placeholder='Suburb'  ng-model="user.suburb" />-->
 
-                      <md-autocomplete  ng-disabled="isDisabled" md-no-cache="noCache" md-selected-item="selectedSuburb" md-search-text="searchText" md-selected-item-change="selectedItemChange(item)" md-items="item in querySearch(searchText)" md-item-text="item.label" md-min-length="0" placeholder="Type suburb name">
+                      <md-autocomplete  ng-disabled="isDisabled" md-no-cache="noCache" md-selected-item="selectedSuburb" md-search-text="searchText" md-selected-item-change="selectedItemChange(item)" md-items="item in $ctrl.querySearch(searchText)" md-item-text="item.label" md-min-length="0" placeholder="Type suburb name">
                         <md-item-template>
                           <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.label}}</span>
                         </md-item-template>

@@ -2,12 +2,21 @@
 	include 'InvoicePDO.php';
 	$action= $_POST["partaction"];
 	$invoiceParts = new InvoiceParts();
-	$invoiceParts->ID = $_POST["InvoicePartsID"];
+    if(isset($_POST["id"])){
+	   $invoiceParts->ID = $_POST["id"];
+    }else {
+        $invoiceParts->ID = "";
+    }
 	$invoiceParts->InvoicesID = $_POST["InvoicesID"];
-	$invoiceParts->PartsID = $_POST["PartsID"];
-	$invoiceParts->PartName = $_POST["PartName"];
-	$invoiceParts->Qty = $_POST["Qty"];
-	$invoiceParts->UnitCost = $_POST["UnitCost"];
+    if(isset($_POST["partsid"])){
+        $invoiceParts->PartsID = $_POST["partsid"];
+    }else {
+        $invoiceParts->PartsID = "";
+    }
+	
+	$invoiceParts->PartName = $_POST["partname"];
+	$invoiceParts->Qty = $_POST["qty"];
+	$invoiceParts->UnitCost = $_POST["unitcost"];
 	$invoiceParts->CompaniesID = $_POST["CompaniesID"];
 	
 	//No PartsID 

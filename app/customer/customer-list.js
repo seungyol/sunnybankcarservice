@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp')
+angular.module('customer')
 .controller('CustomerListController', ['$location','$scope','$rootScope', 'AuthFactory', function( $location, $scope,$rootScope, AuthFactory){
   AuthFactory.checkLogin();
   $rootScope.loginResult = AuthFactory.getLoginDetail();

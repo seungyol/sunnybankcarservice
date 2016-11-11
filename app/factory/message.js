@@ -1,4 +1,4 @@
-angular.module('myApp')
+angular.module('commonApp')
   .factory('messageFactory', function(){ 
     return {
       successMessage: function(msg, popup = false, callback) {

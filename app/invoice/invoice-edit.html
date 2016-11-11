@@ -227,7 +227,7 @@
 						<h4 class="modal-title">Part Details</h4>					
 					</div>
 					<div class="modal-body">
-						<form id='frmPart' action="" name='frmPart' class="form-horizontal">
+						<form id='frmPart' action="" method="post" name='frmPart' class="form-horizontal">
 							<input type='hidden' ng-model='partdtl.id' id='InvoicePartsID' name='InvoicePartsID'/>
 							<input type='hidden' ng-model='partdtl.partsid' id='PartsID' name='PartsID'/>
 							<div class="form-group">
@@ -252,8 +252,8 @@
 						</form>			
 					</div>
 					<div class="modal-footer">
-						<button type='button' class='btn btn-warning' ng-click="savePart()" id='btnPartSave'>Save</button>
-						<button type='button' class='btn btn-danger' ng-click="deletePart()" id='btnPartDelete' ng-show="partdtl.id">Delete</button>
+						<button type='button' class='btn btn-warning' ng-disabled='isPartSaveDisabled' ng-click="savePart()" id='btnPartSave'>Save</button>
+						<button type='button' class='btn btn-danger' ng-disabled='isPartDeleteDisabled' ng-click="deletePart()" id='btnPartDelete' ng-show="partdtl.id">Delete</button>
 					</div>		
 				</div>
 

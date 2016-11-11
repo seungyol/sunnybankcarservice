@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('myApp')
-.controller('CustomerEditController', ['$q', '$location','$http','$routeParams','$route', 'AppAlert','ConfirmFactory',  '$uibModal','$rootScope', '$scope','AuthFactory', 'CustomerFactory',
+angular.module('customer')
+.controller('CustomerEditController', ['$q', '$location','$http','$routeParams','$route', 'AppAlert','ConfirmFactory',  '$uibModal','$rootScope', '$scope','AuthFactory', 'CustomerFactory', 'Suburb',
   function($q, $location, $http, $routeParams,$route,
-        AppAlert,ConfirmFactory, $uibModal,$rootScope, $scope,AuthFactory, CustomerFactory){
+        AppAlert,ConfirmFactory, $uibModal,$rootScope, $scope,AuthFactory, CustomerFactory, Suburb){
   //Login check & Add login session to rootScope                                        
     AuthFactory.checkLogin();
     $rootScope.loginResult = AuthFactory.getLoginDetail();
@@ -14,20 +14,7 @@ angular.module('myApp')
     }
                                               
     //Suburb Autocomlete
-    $scope.querySearch   = function (query) {  
-        if(query.length >=3){
-            return $http.get('server/SelectPostCodes.php?term=' + query)
-              .then(function(response) {
-                    return response.data;
-                }, function(response) {
-                    // something went wrong
-                    return $q.reject(response.data.records);
-                }
-            );      
-        }else {
-            return [];
-        }
-    };
+    $scope.querySearch = query => Suburb.search(query);
 
     function createFilterFor(query) {
         var lowercaseQuery = angular.lowercase(query);

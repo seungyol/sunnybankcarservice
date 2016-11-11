@@ -1,4 +1,4 @@
-angular.module('myApp')
+angular.module('commonApp')
   .factory('numberFactory', function() {
     return {
       integerOnly: function(input, length) {

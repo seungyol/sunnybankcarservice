@@ -1,4 +1,4 @@
-angular.module('myApp')
+angular.module('commonApp')
   .factory('AppAlert', ['$rootScope', function($rootScope) {
     $rootScope.alerts = [];
     alertService = { 

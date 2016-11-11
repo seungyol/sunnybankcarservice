@@ -11,7 +11,7 @@ angular.module('myApp')
     //Init object for Part Detail Popup's model
     $scope.partdtl = {};
     $scope.invoice = {};
-
+    
     //load the invoice & car detail
     InvoiceFactory.selectInvoice($routeParams.ID, $routeParams.CustomersID, $routeParams.CustomerCarsID, $rootScope.loginResult.CompaniesID,
       function(data) {
@@ -93,7 +93,8 @@ angular.module('myApp')
         $scope.partdtl = {};
         $( "#divPartPopup").modal("show");
         setupPartAutocomplete();
-
+        $scope.isPartSaveDisabled = false;
+        $scope.isPartDeleteDisabled = true;
     };
     
     $scope.saveInvoice = function(){        
@@ -115,7 +116,6 @@ angular.module('myApp')
          },
          select: function(event, ui){
             var tmp1 = ui.item.value.split('|');
-            console.log(tmp1);
             $scope.partdtl.partname = tmp1[1];
             $scope.partdtl.partsid = tmp1[0];
             $scope.partdtl.unitcost = tmp1[2];
@@ -135,24 +135,33 @@ angular.module('myApp')
         $scope.partdtl.qty = obj.Qty;
         $scope.partdtl.unitcost = obj.UnitCost;
         $scope.partdtl.partname = obj.PartName;     
+        $scope.isPartSaveDisabled = false;
+        $scope.isPartDeleteDisabled = false;
         
     };
     var genPartData = function(action) {
         var part = {
             partaction: action,
-            InvoicePartsID: $scope.partdtl.id,
-            PartsID: $scope.partdtl.partsid,
+            id: $scope.partdtl.id,
+            partsid: $scope.partdtl.partsid,
             InvoicesID: $scope.invoice.ID,
-            PartName: $scope.partdtl.partname,
-            Qty: $scope.partdtl.qty,
-            UnitCost: $scope.partdtl.unitcost,
+            partname: $scope.partdtl.partname,
+            qty: $scope.partdtl.qty,
+            unitcost: $scope.partdtl.unitcost,
             CompaniesID: $rootScope.loginResult.CompaniesID
         };  
         return part;
     };
     $scope.savePart = function(e){
-        var part = genPartData("SAVE");
-        PartFactory.savePart(part, function(data){
+        $scope.isPartSaveDisabled = true;
+        $scope.isPartDeleteDisabled = true;
+        
+        $scope.partdtl.partaction= 'SAVE';
+        $scope.partdtl.CompaniesID = $rootScope.loginResult.CompaniesID;
+        $scope.partdtl.InvoicesID = $routeParams.ID;
+
+        var validateResult = PartFactory.savePart($scope.partdtl, function(data){
+            
             if(Number(data.ID) > 0){
                 $scope.partdtl.id = data.ID;
                 $scope.parts.push({ID: $scope.partdtl.id, 
@@ -174,12 +183,18 @@ angular.module('myApp')
             }
             $scope.partdtl = {};
             $('#PartName').focus();
+            $scope.isPartSaveDisabled = false;
+            $scope.isPartDeleteDisabled = true;            
         });
+        if(validateResult === true) {
+            $scope.isPartSaveDisabled = false;
+        }
     };   
       
     $scope.deletePart = function(){
+        
         var part = genPartData("DELETE");     
-        PartFactory.deletePart(part, function(data){
+        var confirmResult = PartFactory.deletePart(part, function(data){
             for(var i=0; i < $scope.parts.length;i++){
                 if($scope.parts[i].ID == $scope.id){
                     $scope.parts.splice(i,1);
@@ -187,7 +202,7 @@ angular.module('myApp')
             }
             $( "#divPartPopup" ).modal("hide");
             AppAlert.add('success','The part is deleted successfully!', $route.reload);
-        });          
+        });  
     };      
 }]);
 
