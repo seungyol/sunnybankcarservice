@@ -65,24 +65,38 @@ angular.module('myApp')
         },
         DeleteCustomer : function (customer) {
             ConfirmFactory.open("Delete Customer", "Are you really want to delete the customer[ID : "  + customer.ID + "]?", function(){
+                var data = $.param({
+                  action: 'DELETE',
+                  CustomersID: customer.ID
+                });
 
-        var data = $.param({
-          action: 'DELETE',
-          CustomersID: customer.ID
-        });
-
-        $http.post(
-          'server/SaveCustomer.php',
-          data,
-          {headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}}
-        ).success(function(response){
-          if(response.affectedRows == 1) {
-            AppAlert.add("success",'DELETE SUCCESS', function(){$location.path('/customer-list')});
-          }else {
-            AppAlert.add("error",'FAILURE');
-          }            
-        });
-    });      
-  }
-};
+                $http.post(
+                  'server/SaveCustomer.php',
+                  data,
+                  {headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}}
+                ).success(function(response){
+                  if(response.affectedRows == 1) {
+                    AppAlert.add("success",'DELETE SUCCESS', function(){$location.path('/customer-list')});
+                  }else {
+                    AppAlert.add("error",'FAILURE');
+                  }            
+                });
+            });      
+        },
+        SelectCustomer: function(id, companiesID, callback) {
+            var data=$.param({
+                ID: id,
+                CompaniesID: companiesID
+            });                
+            $http.post(
+                'server/SelectCustomerDetail.php' ,
+                data,
+                {headers: {'Content-Type':'application/x-www-form-urlencoded;charset=utf-8'}}
+            ).success(function(response){
+                if(callback){
+                    callback(response);
+                }
+            });                 
+        }
+    };
 }]);

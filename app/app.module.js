@@ -26,14 +26,13 @@ angular.module('myApp', [
   $locationProvider.hashPrefix('!');
   $routeProvider
     .when('/customer-list',{
-               templateUrl: 'customer/customer-list.html',
-               controller: 'CustomerListController'
+        template: '<customer-list></customer-list>'
     }).when('/login', {
       templateUrl: 'login/login.html',
       controller: 'LoginCtrl'
     }).when('/customer-edit/:id',{
-       templateUrl: 'customer/customer-edit.html',
-       controller: 'CustomerEditController'
+       template: '<customer-edit></customer-edit>',
+//       controller: 'CustomerEditController'
     }).when('/invoice-list', {
       templateUrl: 'invoice/invoice-list.html',
       controller: 'InvoiceListController'

@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('customer')
-.controller('CustomerListController', ['$location','$scope','$rootScope', 'AuthFactory', function( $location, $scope,$rootScope, AuthFactory){
+.component('customerList', {
+    templateUrl: 'customer/customer-list.html',
+    controller: ['$location','$scope','$rootScope', 'AuthFactory', function( $location, $scope,$rootScope, AuthFactory){
   AuthFactory.checkLogin();
   $rootScope.loginResult = AuthFactory.getLoginDetail();
     var oTable = $("#CustomerList").dataTable({
@@ -26,4 +28,5 @@ angular.module('customer')
     $location.path('/customer-edit/0').replace();
   };		
   $("button").button();    
-}]);
+}]    
+});

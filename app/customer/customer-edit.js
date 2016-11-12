@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('customer')
-.controller('CustomerEditController', ['$q', '$location','$http','$routeParams','$route', 'AppAlert','ConfirmFactory',  '$uibModal','$rootScope', '$scope','AuthFactory', 'CustomerFactory', 'Suburb',
-  function($q, $location, $http, $routeParams,$route,
-        AppAlert,ConfirmFactory, $uibModal,$rootScope, $scope,AuthFactory, CustomerFactory, Suburb){
+.component('customerEdit', {
+    templateUrl: 'customer/customer-edit.html',
+    controller: ['$q', '$location','$http','$routeParams','$route', 'AppAlert','ConfirmFactory',  '$uibModal','$rootScope', '$scope','AuthFactory', 'CustomerFactory', 'Suburb',
+  function($q, $location, $http, $routeParams,$route, AppAlert,ConfirmFactory, $uibModal,$rootScope, $scope,AuthFactory, CustomerFactory, Suburb){
   //Login check & Add login session to rootScope                                        
     AuthFactory.checkLogin();
     $rootScope.loginResult = AuthFactory.getLoginDetail();
@@ -15,14 +16,6 @@ angular.module('customer')
                                               
     //Suburb Autocomlete
     $scope.querySearch = query => Suburb.search(query);
-
-    function createFilterFor(query) {
-        var lowercaseQuery = angular.lowercase(query);
-
-        return function filterFn(model) {
-            return (model.value.indexOf(lowercaseQuery) === 0);
-        };
-    }      
                                               
     $scope.CarPopup = {};
     
@@ -51,31 +44,31 @@ angular.module('customer')
             }
         }      
     };
+
     $scope.GotoList = function() {
         $location.path("/customer-list");
-    };                                              
-
+    };
   
     function showCarPopup(car) {
-      var modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'CarDetail.html',
-        controller: 'CarDetailController',
-        controllerAs: '$ctrl',
-        resolve: {
-          car: function(){return car},
-          makers : function(){return $scope.makers},
-          CompaniesID: function(){return  AuthFactory.getLoginDetail().CompaniesID},
-          CustomersID : function(){return  $routeParams.id}
-        }
-      });
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'CarDetail.html',
+            controller: 'CarDetailController',
+            controllerAs: '$ctrl',
+            resolve: {
+              car: function(){return car},
+              makers : function(){return $scope.makers},
+              CompaniesID: function(){return  AuthFactory.getLoginDetail().CompaniesID},
+              CustomersID : function(){return  $routeParams.id}
+            }
+        });
 
-      modalInstance.result.then(function (result) {
+        modalInstance.result.then(function (result) {
         
-      }, function () {
-//        console.log('Cancel Clicked : ' + new Date());
-      });      
+        }, function () {
+        });
     }
+      
     $scope.AddCar = showCarPopup;
     $scope.showCar = showCarPopup;  
     $scope.selectCar = function(ID) {
@@ -87,33 +80,26 @@ angular.module('customer')
           }
       }
     };
-    var data=$.param({
-        ID: $routeParams.id,
-        CompaniesID: $rootScope.loginResult.CompaniesID
-    });    
-    $http.post(
-        'server/SelectCustomerDetail.php' ,
-        data,
-        {headers: {'Content-Type':'application/x-www-form-urlencoded;charset=utf-8'}}
-    ).success(function(response){
-      $scope.CompaniesID = AuthFactory.getLoginDetail().CompaniesID;
-      $scope.cust = response.cust;
-      $scope.selectedSuburb = $scope.cust.suburb;
-      $scope.selectedItemChange = function(item) {
-          if(typeof(item) === 'object'){
-              $scope.cust.state = item.value.split(',')[1];
-              $scope.cust.postcode = item.value.split(',')[2];
-              $scope.cust.suburb =  item.display;          
-          }
-      };      
-      $scope.custCars = response.custCars;
-      if($scope.custCars != null && $scope.custCars.length > 0) {
-          $scope.custCars[0].checked = true;
-      }
-      $scope.custInvoices = response.custInvoices;
-      $scope.makers = response.makers;  
-    }).error(function(response) {
 
-    });                                              
-}]);
-
+    CustomerFactory.SelectCustomer($routeParams.id, $rootScope.loginResult.CompaniesID,
+        function(response){
+            $scope.CompaniesID = AuthFactory.getLoginDetail().CompaniesID;
+            $scope.cust = response.cust;
+            $scope.selectedSuburb = $scope.cust.suburb;
+            $scope.selectedItemChange = function(item) {
+                if(typeof(item) === 'object'){
+                    $scope.cust.state = item.value.split(',')[1];
+                    $scope.cust.postcode = item.value.split(',')[2];
+                    $scope.cust.suburb =  item.display;          
+                }
+            };      
+            $scope.custCars = response.custCars;
+            if($scope.custCars != null && $scope.custCars.length > 0) {
+                $scope.custCars[0].checked = true;
+            }
+            $scope.custInvoices = response.custInvoices;
+            $scope.makers = response.makers;  
+        }
+    );                                             
+}]
+});
