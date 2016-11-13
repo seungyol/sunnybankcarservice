@@ -59,13 +59,40 @@
         border: 0;
         margin: 0 0 0 20px;
     }
-	div.divInvoice { width:230px;height:120px;border-left:none;}
-	div.divPartsHeader {width:681px;height:20px;
-        background-color:#EDEDED;padding:5px;}
-	div.divPartsDetails {width:691px;height:460px;}
+
+	table.parts {
+        width:691px;height:460px;
+        border: 1px solid #AFAFAF;
+        table-layout: fixed;
+    }
+    table.parts th {
+        border-bottom: 1px solid #AFAFAF;
+        font-weight: normal;
+        background-color: #EDEDED;
+    }
+    th.description {
+        width: 60%;
+    }
+    th.qty {
+        width: 10%;
+    }
+    th.unit {
+        width: 15%;
+        text-align: right;
+    }
+    th.total {
+        width: 15%;
+        text-align: right;
+        padding-right:2px;
+    }
+    table.parts td {
+        padding-top: 5px;
+    }
+/*
     div.Car {
         margin-top: 5px !important;
     }
+*/
     div.box {
         border: 0;
         overflow: auto;
@@ -89,7 +116,6 @@
         text-align: right;     
         font-weight: bold;
     }
-    .right {text-align: right;}
     .bold {font-weight: bold;}
     .header-box {
         background-color: #EDEDED;   
@@ -99,14 +125,13 @@
     }
     table {width:664px;border-spacing:0px;margin-top:10px;display:block;float:left;}
     
-	tr {margin:0px;padding:0px;height:20px;}
-	th {background-color:gray;border-bottom: 1px solid;padding:0px;}
+	thead tr {margin:0px;padding:0px;height:30px;}
 	td {margin:0px;padding:0px;height:20px;padding:0px 5px 0px 5px;}
 	span {display:block;float:left;border:0px;}
 	.num {text-align:right;}
 	.txt {text-align:left;}
 	.description {width:390px;padding-left:20px;}
-	.qty {width:47px;text-align:right;}
+	.qty {text-align:center;}
 	.price {width:92px;text-align:right;}
 	div.ResultNote {width:460px; height:240px;}
 	div.ResultNote > span {width: 460px;display: block; bold;padding: 10px 0px 0px 10px;}
@@ -120,7 +145,7 @@
 	div.InvoiceTotal > ul > li > label {width:110px;float:left;}
 	div.InvoiceTotal > ul > li > span {width:80px;text-align:right;}
 	</style>
-	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>	
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 	<script>
 		$(function(){
 			window.print();
@@ -143,7 +168,6 @@
         
         <div class='box'><label class='labelbox bold'>Invoice No :</label><label class='val-box short'><?php echo $custInvoices["ID"];?></label></div>
         <div class='box'><label class='labelbox bold'>Date :</label><label class='val-box short'><?php echo $custInvoices["InvDate"];?></label></div>
-        
     </div>
     
     
@@ -156,7 +180,6 @@
             <li style='font-weight:normal;'><?php echo $customer["suburb"] . " " . $customer["state"] . " " . $customer["postcode"]; ?></li>
             <li class='mobile'><?php echo $customer["Mobile"];?></li>
         </ul>
-
 	</div>
     
 	<div class='divCar' style='border-left:none;'>
@@ -167,37 +190,38 @@
             <div class='box'><label class='short-label-box'>VIN :</label><label class='val-box'><?php if(empty($custCars["VIN"])) {echo "&nbsp;";}else {echo $custCars["VIN"];}?></label></div>
             <div class='box'><label class='short-label-box'>Odometer :</label><label class='val-box'><?php echo number_format($custInvoices["Odometer"]) . ' Km';?></label></div>
         </div>
+	</div>	
 
-	</div>	
-	<div class='divPartsHeader'>
-		<span class='description'>Description</span>
-		<span class='qty'>Qty</span>
-		<span class='price'>Unit Price</span>
-		<span class='price'>Line Total</span>
-	</div>
-	<div class='divPartsDetails' style='margin-top:0px;border-top:0px;'>
-		<table class='parts'>
-		<?php
-			foreach($invoiceParts as $part){
-				echo "<tr>";
-				echo "<td class='description'>" . $part->PartName . "</td>";
-				echo "<td class='qty'>" . $part->Qty . "</td>";
-				echo "<td class='price'>" . $part->UnitCost . "</td>";
-				echo "<td class='price'>" . floor($part->LineTotal) . "</td>";
-				echo "</tr>";
-			}
-		
-		?>
-		</table>	
-	</div>	
+    <table class='parts' cellpadding="0" cellspacing="0" border="0">
+        <thead>
+            <tr>
+                <th class='description'>Description</th>
+                <th class='qty'>Qty</th>
+                <th class='unit'>Unit Price</th>
+                <th class='total'>Line Total</th>
+            </tr>
+        </thead>
+        <tbody>
+    <?php
+        foreach($invoiceParts as $part){
+            echo "<tr>";
+            echo "<td class='description'>" . $part->PartName . "</td>";
+            echo "<td class='qty'>" . $part->Qty . "</td>";
+            echo "<td class='price'>" . $part->UnitCost . "</td>";
+            echo "<td class='price'>" . floor($part->LineTotal) . "</td>";
+            echo "</tr>";
+        }
+
+    ?>
+        </tbody>
+    </table>	
 
 	<div class='ResultNote' style='position:relative;'>
 			<span><label>Report</label></span>
-			<span><?php echo nl2br ($custInvoices["ResultNotes"]);?>
-			</span>
-                        <span style='position:absolute;bottom:0;'>
+			<span><?php echo nl2br ($custInvoices["ResultNotes"]);?></span>
+            <span style='position:absolute;bottom:0;'>
 <?php echo $company["BankNm"];?>, <?php echo $company["BsbNo"];?>, <?php echo $company["AccNo"];?>, <?php echo $company["AccNm"];?><br>
-</span>
+            </span>
 	</div>
 	<div class='InvoiceTotal'>
 			<ul>

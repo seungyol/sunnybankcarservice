@@ -61,11 +61,34 @@
     }
 	div.divInvoice { width:230px;height:140px;border-left:none;}
 
-	div.divPartsHeader {width:681px;height:20px;background-color:#EDEDED;padding:5px;}
-	div.divPartsDetails {width:691px;height:460px;}
-div.Car {
-        margin-top: 5px !important;
+	table.parts {
+        width:691px;height:460px;
+        border: 1px solid #AFAFAF;
+        table-layout: fixed;
     }
+    table.parts th {
+        border-bottom: 1px solid #AFAFAF;
+        font-weight: normal;
+        background-color: #EDEDED;
+    }
+    th.description {
+        width: 60%;
+    }
+    th.qty {
+        width: 10%;
+    }
+    th.unit {
+        width: 15%;
+        text-align: right;
+    }
+    th.total {
+        width: 15%;
+        text-align: right;
+        padding-right:2px;
+    }
+    table.parts td {
+        padding-top: 5px;
+    }	
     div.box {
         border: 0;
         overflow: auto;
@@ -98,6 +121,7 @@ div.Car {
         padding-left: 10px;
     }	
 table {width:664px;border-spacing:0px;margin-top:10px;display:block;float:left;}
+    thead tr {margin:0px;padding:0px;height:30px;}
 	tr {margin:0px;padding:0px;height:20px;}
 	th {background-color:gray;border-bottom: 1px solid;padding:0px;}
 	td {margin:0px;padding:0px;height:20px;padding:0px 5px 0px 5px;}
@@ -159,14 +183,16 @@ table {width:664px;border-spacing:0px;margin-top:10px;display:block;float:left;}
 				<div class='box'><label class='short-label-box'>Odometer :</label><label class='val-box'><?php echo number_format($custInvoices["Odometer"]) . ' Km';?></label></div>
 		</div>
 	</div>		
-	<div class='divPartsHeader'>
-		<span class='description'>Description</span>
-		<span class='qty'>Qty</span>
-		<span class='price'>Unit Price</span>
-		<span class='price'>Line Total</span>
-	</div>
-	<div class='divPartsDetails' style='margin-top:0px;border-top:0px;'>
-		<table class='parts'>
+	<table class='parts' cellpadding="0" cellspacing="0" border="0">
+        <thead>
+            <tr>
+                <th class='description'>Description</th>
+                <th class='qty'>Qty</th>
+                <th class='unit'>Unit Price</th>
+                <th class='total'>Line Total</th>
+            </tr>
+        </thead>
+        <tbody>
 		<?php
 			foreach($invoiceParts as $part){
 				echo "<tr>";
@@ -178,8 +204,9 @@ table {width:664px;border-spacing:0px;margin-top:10px;display:block;float:left;}
 			}
 		
 		?>
-		</table>	
-	</div>	
+        </tbody>
+    </table>	
+
 	<div class='JobDescription'>
 			<span><label>Job Description</label></span>
 			<span><?php echo nl2br ($custInvoices["JobDescription"]);?>
