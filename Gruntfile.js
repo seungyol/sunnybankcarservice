@@ -31,11 +31,21 @@ module.exports = function(grunt) {
 				},
 				app: {
 						files: {
-								'dist/main-safe.js': ['dist/main.js']
+								'app/js/main-safe.js': ['app/js/main.js']
 						}
 				}
 		},
-		
+		cssmin: {
+			target: {
+				files: [{
+					expand: true,
+					cwd: 'app/css',
+					src: ['*.css', '!*.min.css'],
+					dest: 'app/css',
+					ext: '.min.css'
+				}]
+			}
+		},		
     concat: {
       // Specify some options, usually specific to each plugin.
       options: {
@@ -53,18 +63,18 @@ module.exports = function(grunt) {
         // Notice the angle-bracketed ERB-like templating,
         // which allows you to reference other properties.
         // This is equivalent to 'dist/main.js'.
-        dest: '<%= distFolder %>/main.js'
+        dest: 'app/js/main.js'
         // You can reference any grunt config property you want.
         // Ex: '<%= concat.options.separator %>' instead of ';'
       }
     },
-		uglify: {
+    uglify: {
       options: {
         banner: '/*! <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'dist/main-safe.js',
-        dest: 'dist/main.min.js'
+        src: 'app/js/main-safe.js',
+        dest: 'app/js/main.min.js'
       }
     }		
   }); // The end of grunt.initConfig
@@ -76,6 +86,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-ng-annotate');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
   // Register our own custom task alias.
-  grunt.registerTask('default', ['jshint','concat','ngAnnotate','uglify']);
+  grunt.registerTask('default', ['cssmin', 'jshint','concat','ngAnnotate','uglify']);
 };
