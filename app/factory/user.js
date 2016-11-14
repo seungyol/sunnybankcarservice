@@ -1,4 +1,4 @@
-angular.module('commonApp').service('User', function($resource) {
+angular.module('commonApp').service('User', ['$resource', function($resource) {
     var UserDetails = $resource('server/SelectUserDetail.php');
     this.get = function(id, roleId, callback) {
         return UserDetails.get({ID: id, RolesID: roleId}, callback);        
@@ -8,4 +8,4 @@ angular.module('commonApp').service('User', function($resource) {
     this.save = function(data, callback) {
         return SaveUser.save(data, callback);
     };
-});
+}]);

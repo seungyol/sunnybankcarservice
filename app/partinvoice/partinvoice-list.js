@@ -9,7 +9,7 @@ angular.module('myApp')
 		var max = str.length;
 		var n = 0;
 		for(var i=0; i< max; i++){
-			if(str[i]==needle){
+			if(str[i] === needle){
 				n++;
 				if(n>=nth){
 					break;
@@ -26,18 +26,18 @@ angular.module('myApp')
                 if(row.InvoiceNos == null){
 			         return '<button type="button"  data-id="' + row.ID + '" class="btn btn-warning delete-btn">Delete Part</button>';
                 }else {
-                    var html='';
+                    var html='', arrInvs, idx;
                     if(row.InvoiceNos.length > 10){
                         var tmpInvs =  split2(row.InvoiceNos,',',10);
-                        var arrInvs = tmpInvs.split(',');
+                        arrInvs = tmpInvs.split(',');
                     
-                        for(var idx in arrInvs){
+                        for(idx in arrInvs){
                             html += "<a href='#!/invoice-edit/" + arrInvs[idx] + "/0/0'>" + arrInvs[idx] + "</a>,";				
                         }
                         html +=  ".....";
                     }else {
-                        var arrInvs = row.InvoiceNos.split(',');
-                        for(var idx in arrInvs){
+                        arrInvs = row.InvoiceNos.split(',');
+                        for(idx in arrInvs){
                             html += "<a href='#!/invoice-edit/" + arrInvs[idx] + "/0/0'>" + arrInvs[idx] + "</a>,";				
                         }
                     }
@@ -59,7 +59,7 @@ angular.module('myApp')
         $http.post("server/AjaxProcess.php", $.param({partID: partID}),
            {headers: {'Content-Type':'application/x-www-form-urlencoded;charset=utf-8'}}
         ).success(function(data){
-            if(Number(data) == 1){			
+            if(Number(data) === 1){			
                 location.reload();
             }
         });

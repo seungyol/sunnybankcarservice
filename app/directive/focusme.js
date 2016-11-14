@@ -1,5 +1,5 @@
 angular.module('myApp')
-  .directive('focusMe', function($timeout, $parse,$window) {
+  .directive('focusMe',['$timeout','$parse','$window', function($timeout, $parse,$window) {
   return {
     link: function(scope, element, attrs) {
       var model = $parse(attrs.focusMe);
@@ -16,7 +16,7 @@ angular.module('myApp')
       });
       element.bind('blur', function() {
         scope.$apply(model.assign(scope, false));
-      })
+      });
     }
   };
-});
+}]);

@@ -1,4 +1,4 @@
-angular.module('myApp')
+angular.module('commonApp')
 .factory('CarFactory', ['$http','AppAlert', '$route', function($http,AppAlert, $route){
 //  var loginDetail = AuthFactory.getLoginDetail();
   return {

@@ -1,4 +1,4 @@
-angular.module('myApp')
+angular.module('commonApp')
 .factory('CustomerFactory',['$http','AuthFactory','AppAlert','$route','ConfirmFactory','$location', function($http, AuthFactory, AppAlert,$route, ConfirmFactory, $location) {
     return {
         AddBlankCustomer : function() {
@@ -12,7 +12,6 @@ angular.module('myApp')
                 Mobile: null,
                 Email: null,
                 StreetAddress: null,
-                Email: null,
                 suburb: null,
                 state: null,
                 postcode: null,
@@ -24,7 +23,7 @@ angular.module('myApp')
               data,
               {headers: {'Content-Type':'application/x-www-form-urlencoded;charset=utf-8'}}
             ).success(function(response){
-              if(response.affectedRows == 1) {
+              if(parseInt(response.affectedRows, 10) === 1) {
                   $location.path('/customer-edit/'+ response.ID);
               }
             }).error(function(response) {
@@ -42,7 +41,6 @@ angular.module('myApp')
                 Mobile: customer.Mobile,
                 Email: customer.Email,
                 StreetAddress: customer.StreetAddress,
-                Email: customer.Email,
                 suburb: customer.suburb,
                 state: customer.state,
                 postcode: customer.postcode,
@@ -53,11 +51,11 @@ angular.module('myApp')
               'server/SaveCustomer.php' ,
               data,
               {headers: {'Content-Type':'application/x-www-form-urlencoded;charset=utf-8'}}
-            ).success(function(response){
-              if(response.affectedRows == 1) {
+            ).success(function(response){                
+              if(parseInt(response.affectedRows, 10) === 1) {
                   AppAlert.add("success","SAVE SUCCESS", $route.reload);
-              }else if(response.affectedRows === 0) {
-                  AppAlert.add("warning","NO CHANGE")
+              }else if(parseInt(response.affectedRows, 10) === 0) {
+                  AppAlert.add("warning","NO CHANGE");
               }
             }).error(function(response) {
               AppAlert.add("error","Error occurs!. "+ response);
@@ -75,8 +73,8 @@ angular.module('myApp')
                   data,
                   {headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}}
                 ).success(function(response){
-                  if(response.affectedRows == 1) {
-                    AppAlert.add("success",'DELETE SUCCESS', function(){$location.path('/customer-list')});
+                  if(parseInt(response.affectedRows, 10) === 1) {
+                    AppAlert.add("success",'DELETE SUCCESS', function(){$location.path('/customer-list');});
                   }else {
                     AppAlert.add("error",'FAILURE');
                   }            

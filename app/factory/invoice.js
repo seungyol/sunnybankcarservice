@@ -1,11 +1,11 @@
-angular.module('myApp')
+angular.module('commonApp')
 .factory('InvoiceFactory',['$http','AuthFactory','AppAlert','$route','ConfirmFactory','$location', function($http, AuthFactory, AppAlert,$route, ConfirmFactory, $location) {
     return {
         selectInvoice: function(ID, CustomersID, CustomerCarsID, CompaniesID, callback) {
-            $http.get('server/SelectInvoiceDetail.php?ID=' + ID+'&CustomersID=' + CustomersID 
-                      + '&CustomerCarsID='+ CustomerCarsID + '&CompaniesID='+ CompaniesID)
+            $http.get('server/SelectInvoiceDetail.php?ID=' + ID+'&CustomersID=' + CustomersID +
+                      '&CustomerCarsID='+ CustomerCarsID + '&CompaniesID='+ CompaniesID)
               .success(function(data) {
-                if(ID == 0){
+                if(parseInt(ID, 10) === 0){
                   $location.path("/invoice-edit/"+ data.ID + "/"+ CustomersID+ "/" + CustomerCarsID);
                 }else {
                     if(callback) {
@@ -16,7 +16,6 @@ angular.module('myApp')
             });            
         },
         saveInvoice : function(invoice, InvDate, PayDate){
-//            console.log("saveInvoice", invoice);
             var data = $.param({
                 action: "SAVE",
                 InvoicesID: invoice.ID,
@@ -38,9 +37,9 @@ angular.module('myApp')
             $http.post('server/SaveInvoice.php', data, 
                        {headers: {'Content-Type':'application/x-www-form-urlencoded;charset=utf-8'}}
             ).success(function(data){
-                if(data.trim() == "1"){
-                    AppAlert.add("success",'SAVE SUCCESS', function(){$location.path('/invoice-edit/'+ invoice.ID +'/'+invoice.CustomersID + '/' +  invoice.CustomerCarsID)});
-                }else if(data.trim() == "0"){
+                if(parseInt(data.trim(),10) === 1){
+                    AppAlert.add("success",'SAVE SUCCESS', function(){$location.path('/invoice-edit/'+ invoice.ID +'/'+invoice.CustomersID + '/' +  invoice.CustomerCarsID);});
+                }else if(parseInt(data.trim(),10) === 0){
                     AppAlert.add("warning",'NO CHANGE');
                 }else {
                     AppAlert.add("success",'FAILURE');
@@ -55,8 +54,8 @@ angular.module('myApp')
             });
             $http.post('server/SaveInvoice.php',data,{headers: {'Content-Type':'application/x-www-form-urlencoded;charset=utf-8'}}).success(
                 function(data){
-                    if(data == 1){
-                       AppAlert.add("success",'DELETE SUCCESS', function(){$location.path('/customer-edit/'+ invoice.CustomersID)});
+                    if(parseInt(data,10) === 1){
+                       AppAlert.add("success",'DELETE SUCCESS', function(){$location.path('/customer-edit/'+ invoice.CustomersID);});
                     }
             });			
         });

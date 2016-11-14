@@ -39,5 +39,5 @@ angular.module('commonApp')
         sessionStorage.removeItem('RoleName');
         sessionStorage.removeItem('CompaniesID');
     }
-  }    
+  };    
 }]);

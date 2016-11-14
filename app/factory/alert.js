@@ -1,7 +1,7 @@
 angular.module('commonApp')
   .factory('AppAlert', ['$rootScope', function($rootScope) {
     $rootScope.alerts = [];
-    alertService = { 
+    var alertService = { 
       add: function(type, msg,callback) {
         $rootScope.alerts.push({ type: type, msg: msg, close: function() { 
             alertService.closeAlert(this);

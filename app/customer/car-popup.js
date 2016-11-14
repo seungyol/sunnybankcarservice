@@ -1,6 +1,6 @@
 angular.module('customer')
 .controller('CarDetailController',['$route', '$scope','car','makers', '$http','CompaniesID','CustomersID','AppAlert','numberFactory','CarFactory',
-                                   function($route, $scope, car, makers,$http, CompaniesID,CustomersID,AppAlert, numberFactory, CarFactory ) {
+function($route, $scope, car, makers,$http, CompaniesID,CustomersID,AppAlert, numberFactory, CarFactory ) {
   var self = this;  
   $scope.shouldBeOpen = true;
   $scope.makers = makers;

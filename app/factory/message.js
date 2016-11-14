@@ -1,13 +1,13 @@
 angular.module('commonApp')
   .factory('messageFactory', function(){ 
     return {
-      successMessage: function(msg, popup = false, callback) {
-          let target = $('div[ng-view]');
+      successMessage: function(msg, popup , callback) {
+          var target = $('div[ng-view]');
           
           if(popup){
               target = $('div.modal-footer');
           }
-          let msgDiv = $("<div class='alert alert-success' role='alert'></div>").html(msg);
+          var msgDiv = $("<div class='alert alert-success' role='alert'></div>").html(msg);
           target.before(msgDiv);
           msgDiv.show().animate({opacity: 1},1000,function() {
             setTimeout(function(){
@@ -16,18 +16,19 @@ angular.module('commonApp')
                 if(popup){
                     target.closest('.modal').modal('hide');
                 }
-                if(callback)
-                  callback();
+                if(callback){
+                    callback();
+                }  
             },2000);
           });              
       },
-      errorMessage : function(msg, popup = false, callback) {
-          let target = $('div[ng-view]');
+      errorMessage : function(msg, popup, callback) {
+          var target = $('div[ng-view]');
           
           if(popup){
               target = $('div.modal-footer');
           }
-          let msgDiv = $("<div class='alert alert-danger' role='alert'></div>").html(msg);
+          var msgDiv = $("<div class='alert alert-danger' role='alert'></div>").html(msg);
           target.before(msgDiv);
           msgDiv.show().animate({opacity: 1},1000,function() {
             setTimeout(function(){
@@ -36,8 +37,9 @@ angular.module('commonApp')
                 if(popup){
                     target.closest('.modal').modal('hide');
                 }
-                if(callback)
-                  callback();
+                if(callback){
+                    callback();
+                } 
             },2000);
           });
       }

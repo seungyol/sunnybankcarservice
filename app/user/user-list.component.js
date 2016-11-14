@@ -8,7 +8,7 @@ angular.module('myApp')
         $location.path("/user-edit/0");
     };
      
-	if($rootScope.loginResult.RoleName != "Director" && $rootScope.loginResult.RoleName != "Super User"){
+	if($rootScope.loginResult.RoleName !== "Director" && $rootScope.loginResult.RoleName !== "Super User"){
         AppAlert.add('warning', 'You are not allowed to access this page. Please log on as Director', function() {
           $location.path('/login');
         });        

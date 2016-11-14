@@ -8,7 +8,9 @@ angular.module('userEdit').component('userEdit', {
 
         $scope.ID =  $routeParams.ID;
         $scope.loginID = $rootScope.loginResult.ID;
-        this.querySearch = query => Suburb.search(query);
+        this.querySearch = function(query) {
+            return Suburb.search(query);
+        };
 
         function createFilterFor(query) {
             var lowercaseQuery = angular.lowercase(query);
@@ -18,11 +20,11 @@ angular.module('userEdit').component('userEdit', {
             };
         }
         User.get($routeParams.ID, $rootScope.loginResult.RolesID, 
-            userResult => {
+            function(userResult) {
                 $scope.user = userResult.user== null? {}: userResult.user;
                 $scope.roles = userResult.roles;
                 $scope.selectedSuburb = $scope.user.suburb;
-                $scope.selectedItemChange = item => {
+                $scope.selectedItemChange = function(item) {
                   if(typeof(item) === 'object'){
                       $scope.user.state = item.value.split(',')[1];
                       $scope.user.postcode = item.value.split(',')[2];
@@ -54,20 +56,20 @@ angular.module('userEdit').component('userEdit', {
 //          console.log("data", data);
           User.save(data, function(SaveResult){
               if($scope.user.ID > 0) {
-                  if(SaveResult.affectedRows == 1) {
+                  if(parseInt(SaveResult.affectedRows, 10) === 1) {
                       AppAlert.add("success","User is successfully updated!", $route.reload);
                   }else { 
-                      if(SaveResult.Error != "") {
+                      if(SaveResult.Error !== "") {
                         AppAlert.add("danger","Error occurred.["+ SaveResult.Error + "]");
                       }else {
                         AppAlert.add("warning","Nothing changed!");  
                       }
                   }
               }else {
-                  if(SaveResult.affectedRows > 0) {
+                  if(parseInt(SaveResult.affectedRows, 10) > 0) {
                       AppAlert.add("success","User is successfully added!", function(){ $location.path("/user-list");});
                   }else {
-                      if(SaveResult.Error != "") {
+                      if(SaveResult.Error !== "") {
                         AppAlert.add("danger","Error occurred.[]"+ SaveResult.Error + "]");
                       }else {
                         AppAlert.add("warning","Nothing changed!");
@@ -81,7 +83,7 @@ angular.module('userEdit').component('userEdit', {
           $scope.user.action = "DELETE";
           var data = $.param($scope.user);
           User.save(data, function(SaveResult){
-              if(SaveResult.affectedRows == 1) {
+              if(parseInt(SaveResult.affectedRows,10) === 1) {
                   AppAlert.add("success","User is successfully deleted!", function(){ $location.path("/user-list");});
               }else {
                     AppAlert.add("danger","Error occurred.[]"+ response.Error + "]");

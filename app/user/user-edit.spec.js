@@ -34,7 +34,7 @@ describe('UserEditController', function() {
             });
             
             spyOn(ctrl,'querySearch').and.returnValue(deferred.promise);
-            spyOn(User,'get').and.returnValue(deferred.promise);
+            spyOn(User,'get').and.returnValue(deferredUser.promise);
             $httpBackend = _$httpBackend_;
 //            $httpBackend.whenGET('server/SelectPostCodes.php?term=RUNC').respond(suburbs);
             
@@ -65,7 +65,7 @@ describe('UserEditController', function() {
             deferredUser.resolve(userDetailResult);
             scope.$apply();
             expect(User.get(13,3)).not.toBe(undefined);
-            expect(User.get(13,3)).toEqual(userDetailResult);
+            expect(User.get(13,3, userResult => {}).then().$$state.value).toEqual(userDetailResult);
         });
     });
 });

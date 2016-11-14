@@ -1,4 +1,4 @@
-angular.module('myApp')
+angular.module('commonApp')
   .factory('ConfirmFactory',['$rootScope','$uibModal','$log', function($rootScope, $uibModal,$log) {
     var confirmService = {};
     
