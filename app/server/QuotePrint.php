@@ -203,16 +203,16 @@ table {width:664px;border-spacing:0px;margin-top:10px;display:block;float:left;}
 		?>
        
             <tr>
+                <td class='description'></td>
+                <td class='qty'></td>
+                <td class='price'></td>
+                <td class='price'></td>
+            </tr>
+            <tr>
                 <td class='description'>Total</td>
                 <td class='qty'></td>
                 <td class='price'></td>
                 <td class='price'><?php echo floor($custInvoices["TotalAmount"]);?></td>
-            </tr>
-            <tr>
-                <td class='description'>GST</td>
-                <td class='qty'></td>
-                <td class='price'></td>
-                <td class='price'><?php echo round($custInvoices["TotalAmount"] / 11, 2);?></td>
             </tr>  
         </tbody>
     </table>
