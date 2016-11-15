@@ -35,12 +35,12 @@ class Invoices {
 			}
 			
 			if($param["QuotationYN"] == "N"){
-				$sql = $sql . " AND (inv.QuotationYN IS NULL or inv.QuotationYN = 'N' )";
+				$sql = $sql . " AND (inv.QuotationYN IS NULL or inv.QuotationYN = '' or inv.QuotationYN = 'N' )";
 			}else if ($param["QuotationYN"] == "Y"){
 				$sql = $sql . " AND inv.QuotationYN = 'Y' ";
 			}
 			if($param["PreviousYN"] == "N"){
-				$sql = $sql . " AND (inv.PreviousYN IS NULL or inv.PreviousYN  = 'N')";
+				$sql = $sql . " AND (inv.PreviousYN IS NULL or inv.PreviousYN = '' or inv.PreviousYN  = 'N')";
 			}else if ($param["PreviousYN"] == "Y"){
 				$sql = $sql . " AND inv.PreviousYN = 'Y' ";
 			}
@@ -80,12 +80,12 @@ class Invoices {
 				$sql = $sql . " AND inv.PayMethodCd = '" . $param["PayMethodCd"] . "'";
 			}
 			if($param["QuotationYN"] == "N"){
-				$sql = $sql . " AND (inv.QuotationYN IS NULL or inv.QuotationYN = 'N' )";
+				$sql = $sql . " AND (inv.QuotationYN IS NULL or inv.QuotationYN = '' or inv.QuotationYN = 'N' )";
 			}else if ($param["QuotationYN"] == "Y"){
 				$sql = $sql . " AND inv.QuotationYN ='Y' ";
 			}
 			if($param["PreviousYN"] == "N"){
-				$sql = $sql . " AND (inv.PreviousYN IS NULL or inv.PreviousYN  = 'N')";
+				$sql = $sql . " AND (inv.PreviousYN IS NULL or inv.PreviousYN = '' or inv.PreviousYN  = 'N')";
 			}else if ($param["PreviousYN"] == "Y"){
 				$sql = $sql . " AND inv.PreviousYN = 'Y' ";
 			}
