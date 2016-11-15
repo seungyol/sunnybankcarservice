@@ -7,8 +7,12 @@
     <div class='row form-group'>
         <label class='control-label col-sm-6'>Invoice Date (From - To) : </label>	
         <div class=' col-sm-6' >
+<!--
             <input type='text' id='InvDateFrom' name='InvDateFrom' class='form-control' placeholder='dd/mm/yyyy' ng-model="InvDateFrom" />
             <input type='text' id='InvDateTo' name='InvDateTo' class='form-control' placeholder='dd/mm/yyyy' ng-model="InvDateTo" />
+-->
+            <md-datepicker ng-model="InvDateFrom" md-placeholder="Enter date" md-hide-icons="calendar"></md-datepicker>
+            <md-datepicker ng-model="InvDateTo" md-placeholder="Enter date" md-hide-icons="calendar"></md-datepicker>
         </div>
     </div>
     <div class='row form-group'>
